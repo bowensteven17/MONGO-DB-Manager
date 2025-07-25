@@ -1,0 +1,299 @@
+2025-07-25 11:40:14,954 - root - INFO - Ensured directory exists: ./backups
+2025-07-25 11:40:14,954 - root - INFO - Ensured directory exists: ./temp
+2025-07-25 11:40:14,955 - root - INFO - Ensured directory exists: ./logs
+2025-07-25 11:41:21,283 - root - INFO - Ensured directory exists: ./backups
+2025-07-25 11:41:21,283 - root - INFO - Ensured directory exists: ./temp
+2025-07-25 11:41:21,289 - root - INFO - Ensured directory exists: ./logs
+2025-07-25 11:41:21,443 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-25 11:41:21,443 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-25 11:41:21,446 - werkzeug - INFO -  * Restarting with stat
+2025-07-25 11:41:22,556 - root - INFO - Ensured directory exists: ./backups
+2025-07-25 11:41:22,556 - root - INFO - Ensured directory exists: ./temp
+2025-07-25 11:41:22,557 - root - INFO - Ensured directory exists: ./logs
+2025-07-25 11:41:22,642 - werkzeug - WARNING -  * Debugger is active!
+2025-07-25 11:41:22,914 - werkzeug - INFO -  * Debugger PIN: 265-450-209
+2025-07-25 11:46:56,235 - root - INFO - Ensured directory exists: ./backups
+2025-07-25 11:46:56,236 - root - INFO - Ensured directory exists: ./temp
+2025-07-25 11:46:56,236 - root - INFO - Ensured directory exists: ./logs
+2025-07-25 11:46:56,391 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-25 11:46:56,392 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-25 11:46:56,395 - werkzeug - INFO -  * Restarting with stat
+2025-07-25 11:46:57,619 - root - INFO - Ensured directory exists: ./backups
+2025-07-25 11:46:57,620 - root - INFO - Ensured directory exists: ./temp
+2025-07-25 11:46:57,620 - root - INFO - Ensured directory exists: ./logs
+2025-07-25 11:46:57,680 - werkzeug - WARNING -  * Debugger is active!
+2025-07-25 11:46:57,681 - werkzeug - INFO -  * Debugger PIN: 265-450-209
+2025-07-25 11:46:58,777 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 11:46:58,880 - services.mongo_service - INFO - Retrieved 7 databases
+2025-07-25 11:46:58,883 - services.database_service - INFO - Successfully retrieved 7 databases
+2025-07-25 11:46:58,889 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 11:46:58] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-25 11:55:35,017 - root - INFO - GET http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 11:55:35,018 - root - ERROR - Unhandled exception: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:55:35,018 - root - ERROR - Error occurred: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:55:35,021 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 11:55:35] "[35m[1mGET /api/database/list HTTP/1.1[0m" 500 -
+2025-07-25 11:55:35,768 - root - INFO - GET http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 11:55:35,769 - root - ERROR - Unhandled exception: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:55:35,770 - root - ERROR - Error occurred: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:55:35,773 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 11:55:35] "[35m[1mGET /api/database/list HTTP/1.1[0m" 500 -
+2025-07-25 11:56:21,401 - root - INFO - GET http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 11:56:21,404 - root - ERROR - Unhandled exception: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:56:21,406 - root - ERROR - Error occurred: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:56:21,417 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 11:56:21] "[35m[1mGET /api/database/list HTTP/1.1[0m" 500 -
+2025-07-25 11:56:21,496 - root - INFO - GET http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 11:56:21,500 - root - ERROR - Unhandled exception: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:56:21,502 - root - ERROR - Error occurred: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:56:21,549 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 11:56:21] "[35m[1mGET /api/database/list HTTP/1.1[0m" 500 -
+2025-07-25 11:57:19,449 - root - INFO - GET http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 11:57:19,452 - root - ERROR - Unhandled exception: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:57:19,455 - root - ERROR - Error occurred: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:57:19,467 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 11:57:19] "[35m[1mGET /api/database/list HTTP/1.1[0m" 500 -
+2025-07-25 11:57:19,502 - root - INFO - GET http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 11:57:19,503 - root - ERROR - Unhandled exception: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:57:19,505 - root - ERROR - Error occurred: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:57:19,509 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 11:57:19] "[35m[1mGET /api/database/list HTTP/1.1[0m" 500 -
+2025-07-25 11:57:19,543 - root - INFO - GET http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 11:57:19,544 - root - ERROR - Unhandled exception: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:57:19,544 - root - ERROR - Error occurred: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:57:19,549 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 11:57:19] "[35m[1mGET /api/database/list HTTP/1.1[0m" 500 -
+2025-07-25 11:57:19,575 - root - INFO - GET http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 11:57:19,575 - root - ERROR - Unhandled exception: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:57:19,576 - root - ERROR - Error occurred: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2025-07-25 11:57:19,578 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 11:57:19] "[35m[1mGET /api/database/list HTTP/1.1[0m" 500 -
+2025-07-25 12:00:29,152 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:00:29,171 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:00:29] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:00:29,266 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:00:29,339 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:00:29] "[31m[1mPOST /api/database/list HTTP/1.1[0m" 400 -
+2025-07-25 12:00:29,689 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:00:29,691 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:00:29] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:00:29,705 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:00:29,709 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:00:29] "[31m[1mPOST /api/database/list HTTP/1.1[0m" 400 -
+2025-07-25 12:01:57,796 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:01:57,798 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:01:57] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:01:57,864 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:01:57,997 - services.mongo_service - INFO - Retrieved 7 databases
+2025-07-25 12:01:58,010 - services.database_service - INFO - Successfully retrieved 7 databases
+2025-07-25 12:01:58,020 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:01:58] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:01:58,709 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:01:58,712 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:01:58] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:01:58,729 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:01:58,775 - services.mongo_service - INFO - Retrieved 7 databases
+2025-07-25 12:01:58,779 - services.database_service - INFO - Successfully retrieved 7 databases
+2025-07-25 12:01:58,786 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:01:58] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:02:18,804 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:02:18,813 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:02:18] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:02:18,842 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:02:19,044 - services.mongo_service - INFO - Retrieved 7 databases
+2025-07-25 12:02:19,051 - services.database_service - INFO - Successfully retrieved 7 databases
+2025-07-25 12:02:19,056 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:02:19] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:04:59,621 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:04:59,627 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:04:59] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:04:59,727 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:04:59,833 - services.mongo_service - INFO - Retrieved 7 databases
+2025-07-25 12:04:59,843 - services.database_service - INFO - Successfully retrieved 7 databases
+2025-07-25 12:04:59,847 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:04:59] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:05:06,916 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:05:06,920 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:05:06] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:05:06,984 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:05:07,172 - services.mongo_service - INFO - Retrieved 7 databases
+2025-07-25 12:05:07,234 - services.database_service - INFO - Successfully retrieved 7 databases
+2025-07-25 12:05:07,238 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:05:07] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:05:38,793 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:05:38,798 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:05:38] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:05:38,834 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:05:39,003 - services.mongo_service - INFO - Retrieved 1 collections from database config
+2025-07-25 12:05:39,014 - services.collection_service - INFO - Successfully retrieved 1 collections from config
+2025-07-25 12:05:39,020 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:05:39] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:05:41,998 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:05:42,052 - services.mongo_service - INFO - Retrieved 1 collections from database admin
+2025-07-25 12:05:42,057 - services.collection_service - INFO - Successfully retrieved 1 collections from admin
+2025-07-25 12:05:42,062 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:05:42] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:05:45,647 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:05:45,650 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:05:45] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:05:45,665 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:05:45,744 - services.mongo_service - INFO - Retrieved 1 collections from database Assi2Group4
+2025-07-25 12:05:45,749 - services.collection_service - INFO - Successfully retrieved 1 collections from Assi2Group4
+2025-07-25 12:05:45,754 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:05:45] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:05:57,397 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:05:57,401 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:05:57] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:05:57,422 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:05:57,632 - services.mongo_service - INFO - Retrieved 4 collections from database ICT702_4
+2025-07-25 12:05:57,635 - services.collection_service - INFO - Successfully retrieved 4 collections from ICT702_4
+2025-07-25 12:05:57,638 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:05:57] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:19:09,353 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:19:09,356 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:19:09] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:19:09,389 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:19:09,514 - services.mongo_service - INFO - Retrieved 2 collections from database rbac
+2025-07-25 12:19:09,518 - services.collection_service - INFO - Successfully retrieved 2 collections from rbac
+2025-07-25 12:19:09,523 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:19:09] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:40:12,646 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:40:12,650 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:40:12] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:40:12,670 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:40:12,783 - services.mongo_service - INFO - Retrieved 7 databases
+2025-07-25 12:40:12,799 - services.database_service - INFO - Successfully retrieved 7 databases
+2025-07-25 12:40:12,806 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:40:12] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:40:34,802 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:40:34,807 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:40:34] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:40:34,825 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:40:34,900 - services.mongo_service - INFO - Retrieved 7 databases
+2025-07-25 12:40:34,905 - services.database_service - INFO - Successfully retrieved 7 databases
+2025-07-25 12:40:34,911 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:40:34] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:40:41,246 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:40:41,248 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:40:41] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:40:41,270 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:40:41,336 - services.mongo_service - INFO - Retrieved 1 collections from database Assi2Group4
+2025-07-25 12:40:41,343 - services.collection_service - INFO - Successfully retrieved 1 collections from Assi2Group4
+2025-07-25 12:40:41,347 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:40:41] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:40:42,634 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 12:40:42,639 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:40:42] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-25 12:40:42,662 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 12:40:42,763 - services.collection_service - INFO - Successfully retrieved details for collection Assignment
+2025-07-25 12:40:42,789 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:40:42] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 12:41:00,254 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:41:00,257 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:41:00] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:41:00,273 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:41:00,393 - services.mongo_service - INFO - Retrieved 4 collections from database ICT702_4
+2025-07-25 12:41:00,399 - services.collection_service - INFO - Successfully retrieved 4 collections from ICT702_4
+2025-07-25 12:41:00,409 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:41:00] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:41:01,566 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 12:41:01,571 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:41:01] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-25 12:41:01,611 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 12:41:01,683 - services.collection_service - INFO - Successfully retrieved details for collection PROJECT
+2025-07-25 12:41:01,694 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:41:01] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 12:41:05,760 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 12:41:05,832 - services.collection_service - INFO - Successfully retrieved details for collection ASSIGNMENT
+2025-07-25 12:41:05,847 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:41:05] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 12:47:29,105 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 12:47:29,109 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:47:29] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-25 12:47:29,126 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 12:47:29,179 - services.collection_service - INFO - Successfully retrieved details for collection Assignment
+2025-07-25 12:47:29,198 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:47:29] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 12:47:46,108 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 12:47:46,111 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:47:46] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-25 12:47:46,133 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 12:47:46,182 - services.collection_service - INFO - Successfully retrieved details for collection PROJECT
+2025-07-25 12:47:46,194 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:47:46] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 12:56:50,513 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:56:50,519 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:56:50] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:56:50,562 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:56:50,632 - services.mongo_service - INFO - Retrieved 7 databases
+2025-07-25 12:56:50,647 - services.database_service - INFO - Successfully retrieved 7 databases
+2025-07-25 12:56:50,655 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:56:50] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:58:00,372 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:58:00,374 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:58:00] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:58:00,388 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:58:00,427 - services.mongo_service - INFO - Retrieved 7 databases
+2025-07-25 12:58:00,431 - services.database_service - INFO - Successfully retrieved 7 databases
+2025-07-25 12:58:00,437 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:58:00] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:59:08,888 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:59:08,891 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:59:08] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:59:08,911 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-25 12:59:08,947 - services.mongo_service - INFO - Retrieved 7 databases
+2025-07-25 12:59:08,951 - services.database_service - INFO - Successfully retrieved 7 databases
+2025-07-25 12:59:08,955 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:59:08] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-25 12:59:13,514 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:59:13,517 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:59:13] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:59:13,533 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:59:13,599 - services.mongo_service - INFO - Retrieved 1 collections from database Assi2Group4
+2025-07-25 12:59:13,606 - services.collection_service - INFO - Successfully retrieved 1 collections from Assi2Group4
+2025-07-25 12:59:13,611 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:59:13] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:59:14,542 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 12:59:14,545 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:59:14] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-25 12:59:14,594 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 12:59:14,646 - services.collection_service - INFO - Successfully retrieved details for collection Assignment
+2025-07-25 12:59:14,655 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:59:14] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 12:59:23,563 - root - INFO - OPTIONS http://localhost:5000/api/collection/drop - 127.0.0.1
+2025-07-25 12:59:23,565 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:59:23] "OPTIONS /api/collection/drop HTTP/1.1" 200 -
+2025-07-25 12:59:23,579 - root - INFO - DELETE http://localhost:5000/api/collection/drop - 127.0.0.1
+2025-07-25 12:59:23,620 - services.collection_service - INFO - Successfully dropped collection Assignment
+2025-07-25 12:59:23,625 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:59:23] "DELETE /api/collection/drop HTTP/1.1" 200 -
+2025-07-25 12:59:23,639 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:59:23,642 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:59:23] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-25 12:59:23,654 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 12:59:23,677 - services.mongo_service - INFO - Retrieved 0 collections from database Assi2Group4
+2025-07-25 12:59:23,680 - services.collection_service - INFO - Successfully retrieved 0 collections from Assi2Group4
+2025-07-25 12:59:23,683 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 12:59:23] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-25 13:00:24,256 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 13:00:24,260 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:24] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-25 13:00:24,284 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 13:00:24,450 - services.mongo_service - INFO - Retrieved 4 collections from database ICT702_4
+2025-07-25 13:00:24,456 - services.collection_service - INFO - Successfully retrieved 4 collections from ICT702_4
+2025-07-25 13:00:24,472 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:24] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-25 13:00:31,046 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 13:00:31,049 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:31] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-25 13:00:31,066 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 13:00:31,134 - services.collection_service - INFO - Successfully retrieved details for collection PROJECT
+2025-07-25 13:00:31,145 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:31] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 13:00:35,449 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 13:00:35,496 - services.collection_service - INFO - Successfully retrieved details for collection ASSIGNMENT
+2025-07-25 13:00:35,504 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:35] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 13:00:36,726 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 13:00:36,730 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:36] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-25 13:00:36,753 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 13:00:36,846 - services.collection_service - INFO - Successfully retrieved details for collection EMPLOYEE
+2025-07-25 13:00:36,870 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:36] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 13:00:37,320 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 13:00:37,395 - services.collection_service - INFO - Successfully retrieved details for collection JOB
+2025-07-25 13:00:37,407 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:37] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 13:00:40,392 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 13:00:40,396 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:40] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-25 13:00:40,426 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 13:00:40,498 - services.mongo_service - INFO - Retrieved 1 collections from database admin
+2025-07-25 13:00:40,504 - services.collection_service - INFO - Successfully retrieved 1 collections from admin
+2025-07-25 13:00:40,508 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:40] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-25 13:00:41,475 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 13:00:41,483 - root - ERROR - Error occurred: Collection name cannot start with 'system.'
+2025-07-25 13:00:41,488 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:41] "[31m[1mPOST /api/collection/details HTTP/1.1[0m" 400 -
+2025-07-25 13:00:44,829 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 13:00:44,925 - services.mongo_service - INFO - Retrieved 1 collections from database config
+2025-07-25 13:00:44,932 - services.collection_service - INFO - Successfully retrieved 1 collections from config
+2025-07-25 13:00:44,941 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:44] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-25 13:00:45,774 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 13:00:45,779 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:45] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-25 13:00:45,800 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 13:00:45,801 - root - ERROR - Error occurred: Collection name cannot start with 'system.'
+2025-07-25 13:00:45,805 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:45] "[31m[1mPOST /api/collection/details HTTP/1.1[0m" 400 -
+2025-07-25 13:00:52,136 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 13:00:52,139 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:52] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-25 13:00:52,156 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 13:00:52,245 - services.mongo_service - INFO - Retrieved 1 collections from database local
+2025-07-25 13:00:52,249 - services.collection_service - INFO - Successfully retrieved 1 collections from local
+2025-07-25 13:00:52,252 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:52] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-25 13:00:53,390 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 13:00:53,396 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:53] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-25 13:00:53,439 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 13:00:53,501 - services.collection_service - INFO - Successfully retrieved details for collection startup_log
+2025-07-25 13:00:53,531 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 13:00:53] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 14:27:58,814 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 14:27:58,824 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 14:27:58] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-25 14:27:58,848 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 14:27:58,913 - services.collection_service - INFO - Successfully retrieved details for collection PROJECT
+2025-07-25 14:27:58,922 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 14:27:58] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 16:47:25,044 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 16:47:25,049 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 16:47:25] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-25 16:47:25,072 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-25 16:47:25,258 - services.mongo_service - INFO - Retrieved 2 collections from database rbac_system
+2025-07-25 16:47:25,266 - services.collection_service - INFO - Successfully retrieved 2 collections from rbac_system
+2025-07-25 16:47:25,271 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 16:47:25] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-25 16:47:26,290 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 16:47:26,295 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 16:47:26] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-25 16:47:26,331 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 16:47:26,443 - services.collection_service - INFO - Successfully retrieved details for collection users
+2025-07-25 16:47:26,456 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 16:47:26] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 16:49:42,961 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 16:49:42,964 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 16:49:42] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-25 16:49:42,989 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 16:49:43,058 - services.collection_service - INFO - Successfully retrieved details for collection PROJECT
+2025-07-25 16:49:43,071 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 16:49:43] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 16:49:45,224 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 16:49:45,271 - services.collection_service - INFO - Successfully retrieved details for collection ASSIGNMENT
+2025-07-25 16:49:45,281 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 16:49:45] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 16:49:47,681 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 16:49:47,748 - services.collection_service - INFO - Successfully retrieved details for collection EMPLOYEE
+2025-07-25 16:49:47,756 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 16:49:47] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-25 16:49:53,222 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 16:49:53,227 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 16:49:53] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-25 16:49:53,257 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-25 16:49:53,336 - services.collection_service - INFO - Successfully retrieved details for collection ASSIGNMENT
+2025-07-25 16:49:53,351 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 16:49:53] "POST /api/collection/details HTTP/1.1" 200 -
