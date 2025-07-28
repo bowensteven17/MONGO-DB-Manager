@@ -68,6 +68,13 @@ DB-MANAGER/
    npm install
    ```
 
+4. **Seed Database (Optional)**
+   ```bash
+   cd server
+   python seed/seed.py
+   ```
+   This will create sample databases for testing and development.
+
 ### Configuration
 
 Create a `.env` file in the server directory:
