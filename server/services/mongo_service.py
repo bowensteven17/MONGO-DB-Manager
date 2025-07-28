@@ -112,6 +112,10 @@ class MongoService:
                 collection_names = db.list_collection_names()
                 
                 for collection_name in collection_names:
+                    # Skip system collections
+                    if collection_name.startswith('system.'):
+                        continue
+                        
                     try:
                         collection = db[collection_name]
                         
@@ -190,8 +194,9 @@ class MongoService:
                 # Get database stats
                 stats = db.command('dbStats')
                 
-                # Get collection count
-                collections = db.list_collection_names()
+                # Get collection count (excluding system collections)
+                all_collections = db.list_collection_names()
+                collections = [c for c in all_collections if not c.startswith('system.')]
                 
                 return {
                     'name': database_name,

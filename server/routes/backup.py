@@ -19,6 +19,11 @@ def create_backup():
         database_name = data['database_name']
         backup_name = data.get('backup_name')  # Optional custom name
         options = data.get('options', {})  # Optional backup options
+        backup_db_connection = data.get('backup_db_connection')  # Optional separate backup DB connection
+        
+        # Add backup DB connection to options if provided
+        if backup_db_connection:
+            options['backup_db_connection'] = backup_db_connection
         
         result = backup_service.create_backup(
             connection_string, database_name, backup_name, options
@@ -32,13 +37,16 @@ def create_backup():
 @require_json()
 @validate_request_data(['connection_string', 'backup_name'])
 def restore_backup():
-    """Restore a backup to MongoDB"""
+    """Restore a backup to MongoDB with optional collection selection"""
     try:
         data = request.get_json()
         connection_string = data['connection_string']
         backup_name = data['backup_name']
         target_database = data.get('target_database')  # Optional, defaults to original database
+        selected_collections = data.get('selected_collections')  # Optional list of collections to restore
+        target_collections_filter = data.get('target_collections_filter')  # Optional list of target collections to overwrite
         options = data.get('options', {})  # Optional restore options
+        restore_source = data.get('restore_source', 'file_system')  # New parameter
         
         # Additional confirmation required for restore operations
         confirm = data.get('confirm', False)
@@ -49,7 +57,8 @@ def restore_backup():
             }), 400
         
         result = backup_service.restore_backup(
-            connection_string, backup_name, target_database, options
+            connection_string, backup_name, target_database, selected_collections, 
+            target_collections_filter, options, restore_source
         )
         return jsonify(result), 200
         
@@ -133,67 +142,111 @@ def download_backup(backup_name):
     except Exception as e:
         logger.error(f"Failed to download backup {backup_name}: {e}")
         return handle_error(e)
-
 @backup_bp.route('/info/<backup_name>')
-def get_backup_info():
+def get_backup_info(backup_name):
     """Get information about a specific backup"""
     try:
-        backup_name = request.view_args['backup_name']
+        # First try file system backup
         backup_dir = Path(os.getenv('BACKUP_DIRECTORY', './backups'))
         backup_path = backup_dir / backup_name
         
-        if not backup_path.exists():
+        if backup_path.exists():
+            # File system backup exists - use existing logic
+            # Load metadata if available
+            metadata_file = backup_path / 'metadata.json'
+            metadata = {}
+            
+            if metadata_file.exists():
+                import json
+                with open(metadata_file, 'r') as f:
+                    metadata = json.load(f)
+            
+            # Get backup size
+            def get_size(path):
+                if path.is_file():
+                    return path.stat().st_size
+                else:
+                    return sum(f.stat().st_size for f in path.rglob('*') if f.is_file())
+            
+            size = get_size(backup_path)
+            
+            from utils import format_bytes
+            from datetime import datetime
+            
+            backup_info = {
+                'name': backup_name,
+                'database': metadata.get('database', 'unknown'),
+                'size': size,
+                'size_formatted': format_bytes(size),
+                'created_at': metadata.get('created_at', 
+                    datetime.fromtimestamp(backup_path.stat().st_ctime).isoformat()),
+                'method': metadata.get('method', 'unknown'),
+                'path': str(backup_path),
+                'type': 'directory' if backup_path.is_dir() else 'file',
+                'source': 'file_system'
+            }
+            
+            # Add additional metadata if available
+            if 'options' in metadata:
+                backup_info['options'] = metadata['options']
+            
+            # Get collection information from backup directory
+            collections_info = []
+            if backup_path.is_dir():
+                # Find the database directory within the backup
+                db_name = metadata.get('database', 'unknown')
+                db_backup_path = backup_path / db_name
+                
+                if db_backup_path.exists() and db_backup_path.is_dir():
+                    # For mongodump backups - look for .bson files
+                    for bson_file in db_backup_path.glob('*.bson'):
+                        collection_name = bson_file.stem
+                        collections_info.append({
+                            'name': collection_name,
+                            'size': bson_file.stat().st_size,
+                            'type': 'bson'
+                        })
+                    
+                    # For python backups - look for .json files
+                    if not collections_info:
+                        for json_file in db_backup_path.glob('*.json'):
+                            collection_name = json_file.stem
+                            collections_info.append({
+                                'name': collection_name,
+                                'size': json_file.stat().st_size,
+                                'type': 'json'
+                            })
+            
+            if collections_info:
+                backup_info['collections'] = collections_info
+            elif 'collections' in metadata:
+                backup_info['collections'] = metadata['collections']
+            
             return jsonify({
-                'error': 'Backup not found',
-                'message': f'Backup "{backup_name}" does not exist'
-            }), 404
+                'success': True,
+                'backup': backup_info
+            }), 200
         
-        # Load metadata if available
-        metadata_file = backup_path / 'metadata.json'
-        metadata = {}
-        
-        if metadata_file.exists():
-            import json
-            with open(metadata_file, 'r') as f:
-                metadata = json.load(f)
-        
-        # Get backup size
-        def get_size(path):
-            if path.is_file():
-                return path.stat().st_size
-            else:
-                return sum(f.stat().st_size for f in path.rglob('*') if f.is_file())
-        
-        size = get_size(backup_path)
-        
-        from utils import format_bytes
-        from datetime import datetime
-        
-        backup_info = {
-            'name': backup_name,
-            'database': metadata.get('database', 'unknown'),
-            'size': size,
-            'size_formatted': format_bytes(size),
-            'created_at': metadata.get('created_at', 
-                datetime.fromtimestamp(backup_path.stat().st_ctime).isoformat()),
-            'method': metadata.get('method', 'unknown'),
-            'path': str(backup_path),
-            'type': 'directory' if backup_path.is_dir() else 'file'
-        }
-        
-        # Add additional metadata if available
-        if 'options' in metadata:
-            backup_info['options'] = metadata['options']
-        if 'collections' in metadata:
-            backup_info['collections'] = metadata['collections']
-        
-        return jsonify({
-            'success': True,
-            'backup': backup_info
-        }), 200
+        else:
+            # File system backup not found, try database backup
+            result = backup_service.get_database_backup_info(backup_name)
+            return jsonify(result), 200
         
     except Exception as e:
         return handle_error(e)
+        
+        #get backed up database's from 'database'
+@backup_bp.route('/list-database', methods=['GET'])
+def list_database_backups():
+    """List all backups stored in the backup database"""
+    try:
+        result = backup_service.list_database_backups()
+        return jsonify(result), 200
+        
+    except Exception as e:
+        return handle_error(e)
+
+
 
 @backup_bp.route('/validate/<backup_name>')
 def validate_backup():
@@ -261,6 +314,40 @@ def validate_backup():
             'success': True,
             'validation': validation_results
         }), 200
+        
+    except Exception as e:
+        return handle_error(e)
+
+#check for the number of dbs
+@backup_bp.route('/backup-database/info', methods=['GET'])
+def get_backup_database_info():
+    """Get information about the backup database"""
+    try:
+        result = backup_service.get_backup_database_info()
+        return jsonify(result), 200
+        
+    except Exception as e:
+        return handle_error(e)
+
+@backup_bp.route('/delete-database', methods=['DELETE'])
+@require_json()
+@validate_request_data(['backup_name'])
+def delete_database_backup():
+    """Delete a backup from database storage"""
+    try:
+        data = request.get_json()
+        backup_name = data['backup_name']
+        
+        # Additional confirmation required for deletion
+        confirm = data.get('confirm', False)
+        if not confirm:
+            return jsonify({
+                'error': 'Confirmation required',
+                'message': 'Set "confirm": true to proceed with backup deletion'
+            }), 400
+        
+        result = backup_service.delete_database_backup(backup_name)
+        return jsonify(result), 200
         
     except Exception as e:
         return handle_error(e)
