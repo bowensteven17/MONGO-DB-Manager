@@ -81,7 +81,31 @@ Create a `.env` file in the server directory:
 
 ```env
 MONGODB_URI=mongodb://localhost:27017
+# Server Configuration
+FLASK_ENV=development
+PORT=5000
+HOST=127.0.0.1
+
+# MongoDB Configuration
+MONGODB_TIMEOUT=30000
+
+# File Storage
+BACKUP_DIRECTORY=./backups
+TEMP_DIRECTORY=./temp
+LOG_DIRECTORY=./logs
+MAX_BACKUP_SIZE=1073741824
+
+# Logging
+LOG_LEVEL=INFO
+
+# CORS
 ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
+
+# Application
+APP_NAME=MongoDB Utility
+APP_VERSION=1.0.0
+
+# Rate Limiting
 RATELIMIT_STORAGE_URL=memory://
 ```
 
