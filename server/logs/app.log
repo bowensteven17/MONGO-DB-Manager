@@ -1030,3 +1030,124 @@
 2025-07-28 08:33:17,185 - services.mongo_service - INFO - Retrieved 13 databases
 2025-07-28 08:33:17,197 - services.database_service - INFO - Successfully retrieved 13 databases
 2025-07-28 08:33:17,208 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 08:33:17] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:13:09,955 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-28 09:13:09,963 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:13:09] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-28 09:32:57,407 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 09:32:57,416 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:32:57] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:32:57,434 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 09:32:57,505 - services.mongo_service - INFO - Retrieved 13 databases
+2025-07-28 09:32:57,514 - services.database_service - INFO - Successfully retrieved 13 databases
+2025-07-28 09:32:57,522 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:32:57] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:33:09,196 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:33:09,201 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:33:09] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-28 09:33:09,232 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:33:09,283 - services.collection_service - INFO - Successfully retrieved details for collection JOB_copy
+2025-07-28 09:33:09,293 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:33:09] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-28 09:33:13,789 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:33:13,899 - services.collection_service - INFO - Successfully retrieved details for collection EMPLOYEE_copy
+2025-07-28 09:33:13,944 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:33:13] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-28 09:33:14,493 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:33:14,496 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:33:14] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-28 09:33:14,529 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:33:14,531 - root - ERROR - Error occurred: Collection name cannot start with 'system.'
+2025-07-28 09:33:14,537 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:33:14] "[31m[1mPOST /api/collection/details HTTP/1.1[0m" 400 -
+2025-07-28 09:33:16,688 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:33:16,757 - services.collection_service - INFO - Successfully retrieved details for collection PROJECT_copy
+2025-07-28 09:33:16,767 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:33:16] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-28 09:33:18,305 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-28 09:33:18,310 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:33:18] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-28 09:33:18,335 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-28 09:33:18,525 - services.mongo_service - INFO - Retrieved 3 collections from database company_hr
+2025-07-28 09:33:18,538 - services.collection_service - INFO - Successfully retrieved 3 collections from company_hr
+2025-07-28 09:33:18,546 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:33:18] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-28 09:33:20,733 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:33:20,736 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:33:20] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-28 09:33:20,760 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:33:20,827 - services.collection_service - INFO - Successfully retrieved details for collection attendance
+2025-07-28 09:33:20,846 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:33:20] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-28 09:33:51,484 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-28 09:33:51,485 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 09:33:51,495 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:33:51] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:33:51,504 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:33:51] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-28 09:33:51,552 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 09:33:51,645 - services.mongo_service - INFO - Retrieved 13 databases
+2025-07-28 09:33:51,656 - services.database_service - INFO - Successfully retrieved 13 databases
+2025-07-28 09:33:51,664 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:33:51] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:34:16,491 - root - INFO - OPTIONS http://localhost:5000/api/backup/create - 127.0.0.1
+2025-07-28 09:34:16,496 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:34:16] "OPTIONS /api/backup/create HTTP/1.1" 200 -
+2025-07-28 09:34:16,521 - root - INFO - POST http://localhost:5000/api/backup/create - 127.0.0.1
+2025-07-28 09:34:16,610 - services.backup_service - INFO - Starting backup of database company_hr
+2025-07-28 09:34:16,714 - services.backup_service - INFO - Successfully created backup company_hr_backup_20250728_093416
+2025-07-28 09:34:16,720 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:34:16] "[35m[1mPOST /api/backup/create HTTP/1.1[0m" 201 -
+2025-07-28 09:34:29,318 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-28 09:34:29,328 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:34:29] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-28 09:36:22,694 - root - INFO - OPTIONS http://localhost:5000/api/backup/restore - 127.0.0.1
+2025-07-28 09:36:22,705 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:36:22] "OPTIONS /api/backup/restore HTTP/1.1" 200 -
+2025-07-28 09:36:22,748 - root - INFO - POST http://localhost:5000/api/backup/restore - 127.0.0.1
+2025-07-28 09:36:22,939 - services.backup_service - INFO - Starting restore of backup to database company_hr
+2025-07-28 09:36:23,188 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:36:23] "POST /api/backup/restore HTTP/1.1" 200 -
+2025-07-28 09:36:27,563 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 09:36:27,567 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:36:27] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:36:27,593 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 09:36:27,706 - services.mongo_service - INFO - Retrieved 13 databases
+2025-07-28 09:36:27,714 - services.database_service - INFO - Successfully retrieved 13 databases
+2025-07-28 09:36:27,728 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:36:27] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:36:31,050 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:36:31,054 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:36:31] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-28 09:36:31,074 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:36:31,114 - services.collection_service - INFO - Successfully retrieved details for collection attendance
+2025-07-28 09:36:31,124 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:36:31] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-28 09:36:39,792 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:36:39,796 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:36:39] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-28 09:36:39,830 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:36:39,904 - services.collection_service - INFO - Successfully retrieved details for collection employees
+2025-07-28 09:36:39,916 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:36:39] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-28 09:36:48,975 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-28 09:36:48,990 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:36:48] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-28 09:36:49,002 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 09:36:49,010 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:36:49] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:36:49,046 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 09:36:49,130 - services.mongo_service - INFO - Retrieved 13 databases
+2025-07-28 09:36:49,144 - services.database_service - INFO - Successfully retrieved 13 databases
+2025-07-28 09:36:49,170 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:36:49] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:37:05,105 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 09:37:05,108 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:37:05] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:37:05,126 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 09:37:05,219 - services.mongo_service - INFO - Retrieved 13 databases
+2025-07-28 09:37:05,224 - services.database_service - INFO - Successfully retrieved 13 databases
+2025-07-28 09:37:05,233 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:37:05] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:40:26,962 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-28 09:40:26,970 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 09:40:26,977 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:40:26] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:40:26,997 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:40:26] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-28 09:40:27,125 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 09:40:27,243 - services.mongo_service - INFO - Retrieved 13 databases
+2025-07-28 09:40:27,249 - services.database_service - INFO - Successfully retrieved 13 databases
+2025-07-28 09:40:27,261 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:40:27] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:42:34,485 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 09:42:34,488 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:42:34] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:42:34,509 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 09:42:34,611 - services.mongo_service - INFO - Retrieved 13 databases
+2025-07-28 09:42:34,618 - services.database_service - INFO - Successfully retrieved 13 databases
+2025-07-28 09:42:34,626 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:42:34] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-28 09:42:40,460 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:42:40,463 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:42:40] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-28 09:42:40,491 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:42:40,596 - services.collection_service - INFO - Successfully retrieved details for collection departments
+2025-07-28 09:42:40,642 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:42:40] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-28 09:43:01,627 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-28 09:43:01,631 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:43:01] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-28 09:43:01,650 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-28 09:43:01,822 - services.collection_service - INFO - Successfully copied collection departments from company_hr to ecommerce_store
+2025-07-28 09:43:01,828 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:43:01] "POST /api/collection/copy HTTP/1.1" 200 -
+2025-07-28 09:43:01,896 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-28 09:43:01,911 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:43:01] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-28 09:43:01,950 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-28 09:43:02,281 - services.mongo_service - INFO - Retrieved 5 collections from database ecommerce_store
+2025-07-28 09:43:02,285 - services.collection_service - INFO - Successfully retrieved 5 collections from ecommerce_store
+2025-07-28 09:43:02,293 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:43:02] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-28 09:43:14,670 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:43:14,674 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:43:14] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-28 09:43:14,711 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 09:43:14,766 - services.collection_service - INFO - Successfully retrieved details for collection departments_copy
+2025-07-28 09:43:14,777 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 09:43:14] "POST /api/collection/details HTTP/1.1" 200 -
