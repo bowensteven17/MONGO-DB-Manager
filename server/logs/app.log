@@ -297,3 +297,736 @@
 2025-07-25 16:49:53,257 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
 2025-07-25 16:49:53,336 - services.collection_service - INFO - Successfully retrieved details for collection ASSIGNMENT
 2025-07-25 16:49:53,351 - werkzeug - INFO - 127.0.0.1 - - [25/Jul/2025 16:49:53] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-26 09:35:19,990 - werkzeug - INFO -  * Detected change in '/home/bowen/work/DB-MANAGER/server/routes/collection.py', reloading
+2025-07-26 09:35:20,831 - werkzeug - INFO -  * Restarting with stat
+2025-07-26 09:35:22,268 - root - INFO - Ensured directory exists: ./backups
+2025-07-26 09:35:22,268 - root - INFO - Ensured directory exists: ./temp
+2025-07-26 09:35:22,269 - root - INFO - Ensured directory exists: ./logs
+2025-07-26 09:35:22,432 - werkzeug - WARNING -  * Debugger is active!
+2025-07-26 09:35:22,437 - werkzeug - INFO -  * Debugger PIN: 265-450-209
+2025-07-26 09:35:32,977 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-26 09:35:32,982 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 09:35:32] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-26 09:35:33,037 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-26 09:35:33,177 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-26 09:35:33,183 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-26 09:35:33,188 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 09:35:33] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-26 09:35:38,634 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 09:35:38,637 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 09:35:38] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-26 09:35:38,653 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 09:35:38,732 - services.mongo_service - INFO - Retrieved 4 collections from database ICT702_4
+2025-07-26 09:35:38,736 - services.collection_service - INFO - Successfully retrieved 4 collections from ICT702_4
+2025-07-26 09:35:38,738 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 09:35:38] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-26 09:36:32,583 - werkzeug - INFO -  * Detected change in '/home/bowen/work/DB-MANAGER/server/routes/collection.py', reloading
+2025-07-26 09:36:32,758 - werkzeug - INFO -  * Restarting with stat
+2025-07-26 09:36:34,113 - root - INFO - Ensured directory exists: ./backups
+2025-07-26 09:36:34,114 - root - INFO - Ensured directory exists: ./temp
+2025-07-26 09:36:34,115 - root - INFO - Ensured directory exists: ./logs
+2025-07-26 09:36:34,230 - werkzeug - WARNING -  * Debugger is active!
+2025-07-26 09:36:34,231 - werkzeug - INFO -  * Debugger PIN: 265-450-209
+2025-07-26 09:36:38,417 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-26 09:36:38,423 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 09:36:38] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-26 09:36:38,461 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-26 09:36:38,586 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-26 09:36:38,592 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-26 09:36:38,600 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 09:36:38] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-26 09:36:51,313 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 09:36:51,317 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 09:36:51] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-26 09:36:51,334 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 09:36:51,443 - services.mongo_service - INFO - Retrieved 4 collections from database ICT702_4
+2025-07-26 09:36:51,447 - services.collection_service - INFO - Successfully retrieved 4 collections from ICT702_4
+2025-07-26 09:36:51,449 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 09:36:51] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-26 09:36:55,290 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 09:36:55,362 - services.mongo_service - INFO - Retrieved 2 collections from database rbac
+2025-07-26 09:36:55,366 - services.collection_service - INFO - Successfully retrieved 2 collections from rbac
+2025-07-26 09:36:55,370 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 09:36:55] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-26 09:36:57,906 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-26 09:36:57,911 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 09:36:57] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-26 09:36:57,930 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-26 09:36:58,032 - services.collection_service - INFO - Successfully retrieved details for collection roles
+2025-07-26 09:36:58,037 - root - ERROR - Error occurred: Object of type ObjectId is not JSON serializable
+2025-07-26 09:36:58,040 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 09:36:58] "[35m[1mPOST /api/collection/details HTTP/1.1[0m" 500 -
+2025-07-26 10:27:25,161 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-26 10:27:25,164 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:27:25] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-26 10:27:25,207 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-26 10:27:25,255 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-26 10:27:25,263 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-26 10:27:25,268 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:27:25] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-26 10:27:30,021 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 10:27:30,024 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:27:30] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-26 10:27:30,039 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 10:27:30,116 - services.mongo_service - INFO - Retrieved 4 collections from database ICT702_4
+2025-07-26 10:27:30,119 - services.collection_service - INFO - Successfully retrieved 4 collections from ICT702_4
+2025-07-26 10:27:30,124 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:27:30] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-26 10:27:51,723 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-26 10:27:51,727 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:27:51] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-26 10:27:51,747 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-26 10:27:51,868 - services.collection_service - INFO - Source collection EMPLOYEE is empty
+2025-07-26 10:27:51,945 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: local variable 'copied_docs' referenced before assignment
+2025-07-26 10:27:51,948 - services.collection_service - ERROR - Failed to copy collection EMPLOYEE: local variable 'copied_docs' referenced before assignment
+2025-07-26 10:27:51,948 - root - ERROR - Error occurred: local variable 'copied_docs' referenced before assignment
+2025-07-26 10:27:51,951 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:27:51] "[35m[1mPOST /api/collection/copy HTTP/1.1[0m" 500 -
+2025-07-26 10:27:56,238 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-26 10:27:56,271 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'EMPLOYEE_copy' already exists in database 'admin'
+2025-07-26 10:27:56,277 - services.collection_service - ERROR - Failed to copy collection EMPLOYEE: Target collection 'EMPLOYEE_copy' already exists in database 'admin'
+2025-07-26 10:27:56,278 - root - ERROR - Error occurred: Target collection 'EMPLOYEE_copy' already exists in database 'admin'
+2025-07-26 10:27:56,283 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:27:56] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-26 10:28:12,956 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 10:28:12,959 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:28:12] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-26 10:28:12,976 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 10:28:13,075 - services.mongo_service - INFO - Retrieved 2 collections from database rbac
+2025-07-26 10:28:13,081 - services.collection_service - INFO - Successfully retrieved 2 collections from rbac
+2025-07-26 10:28:13,084 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:28:13] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-26 10:28:20,782 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-26 10:28:20,787 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:28:20] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-26 10:28:20,807 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-26 10:28:20,867 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-26 10:28:20,872 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-26 10:28:20,876 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:28:20] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-26 10:28:23,085 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 10:28:23,089 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:28:23] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-26 10:28:23,105 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 10:28:23,168 - services.mongo_service - INFO - Retrieved 2 collections from database rbac
+2025-07-26 10:28:23,171 - services.collection_service - INFO - Successfully retrieved 2 collections from rbac
+2025-07-26 10:28:23,174 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:28:23] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-26 10:28:25,976 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-26 10:28:25,980 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:28:25] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-26 10:28:26,002 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-26 10:28:26,071 - services.collection_service - INFO - Successfully retrieved details for collection users
+2025-07-26 10:28:26,094 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:28:26] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-26 10:28:28,259 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-26 10:28:28,308 - services.collection_service - INFO - Successfully retrieved details for collection roles
+2025-07-26 10:28:28,314 - root - ERROR - Error occurred: Object of type ObjectId is not JSON serializable
+2025-07-26 10:28:28,319 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:28:28] "[35m[1mPOST /api/collection/details HTTP/1.1[0m" 500 -
+2025-07-26 10:28:34,919 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 10:28:34,921 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:28:34] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-26 10:28:34,961 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 10:28:35,065 - services.mongo_service - INFO - Retrieved 2 collections from database rbac_system
+2025-07-26 10:28:35,072 - services.collection_service - INFO - Successfully retrieved 2 collections from rbac_system
+2025-07-26 10:28:35,077 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:28:35] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-26 10:33:46,262 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 10:33:46,264 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:33:46] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-26 10:33:46,279 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 10:33:46,367 - services.mongo_service - INFO - Retrieved 4 collections from database ICT702_4
+2025-07-26 10:33:46,370 - services.collection_service - INFO - Successfully retrieved 4 collections from ICT702_4
+2025-07-26 10:33:46,374 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:33:46] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-26 10:34:03,077 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-26 10:34:03,080 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:34:03] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-26 10:34:03,104 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-26 10:34:03,139 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'EMPLOYEE_copy' already exists in database 'admin'
+2025-07-26 10:34:03,144 - services.collection_service - ERROR - Failed to copy collection EMPLOYEE: Target collection 'EMPLOYEE_copy' already exists in database 'admin'
+2025-07-26 10:34:03,146 - root - ERROR - Error occurred: Target collection 'EMPLOYEE_copy' already exists in database 'admin'
+2025-07-26 10:34:03,151 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:34:03] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-26 10:34:17,883 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-26 10:34:17,887 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:34:17] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-26 10:34:17,906 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-26 10:34:17,970 - services.collection_service - INFO - Successfully retrieved details for collection ASSIGNMENT
+2025-07-26 10:34:17,979 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:34:17] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-26 10:34:19,471 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-26 10:34:19,521 - services.collection_service - INFO - Successfully retrieved details for collection JOB
+2025-07-26 10:34:19,530 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:34:19] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-26 10:34:23,676 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-26 10:34:23,679 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:34:23] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-26 10:34:23,696 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-26 10:34:23,772 - services.collection_service - INFO - Successfully copied collection JOB from ICT702_4 to admin
+2025-07-26 10:34:23,781 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:34:23] "POST /api/collection/copy HTTP/1.1" 200 -
+2025-07-26 10:34:23,802 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 10:34:23,808 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:34:23] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-26 10:34:23,828 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-26 10:34:23,917 - services.mongo_service - INFO - Retrieved 3 collections from database admin
+2025-07-26 10:34:23,920 - services.collection_service - INFO - Successfully retrieved 3 collections from admin
+2025-07-26 10:34:23,925 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:34:23] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-26 10:34:37,329 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-26 10:34:37,332 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:34:37] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-26 10:34:37,352 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-26 10:34:37,415 - services.collection_service - INFO - Successfully retrieved details for collection JOB_copy
+2025-07-26 10:34:37,425 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:34:37] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-26 10:35:01,467 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-26 10:35:01,471 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:35:01] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-26 10:35:01,488 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-26 10:35:01,541 - services.collection_service - INFO - Successfully retrieved details for collection JOB
+2025-07-26 10:35:01,549 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:35:01] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-26 10:35:05,835 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-26 10:35:05,889 - services.collection_service - INFO - Successfully retrieved details for collection JOB_copy
+2025-07-26 10:35:05,895 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 10:35:05] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-26 11:29:38,381 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-26 11:29:38,389 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 11:29:38] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-26 11:29:38,416 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-26 11:29:38,475 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-26 11:29:38,480 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-26 11:29:38,485 - werkzeug - INFO - 127.0.0.1 - - [26/Jul/2025 11:29:38] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 11:41:34,272 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 11:41:34,369 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 11:41:34] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-27 11:41:34,453 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 11:41:34,948 - services.mongo_service - INFO - Retrieved 4 collections from database ICT702_4
+2025-07-27 11:41:34,964 - services.collection_service - INFO - Successfully retrieved 4 collections from ICT702_4
+2025-07-27 11:41:34,975 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 11:41:34] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:01:47,424 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:01:47,427 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:01:47] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:01:47,444 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:01:47,490 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:01:47,493 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:01:47,498 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:01:47] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:02:59,068 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:02:59,071 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:02:59] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:02:59,084 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:02:59,139 - services.collection_service - INFO - Successfully retrieved details for collection PROJECT
+2025-07-27 12:02:59,148 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:02:59] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:03:01,246 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:03:01,290 - services.collection_service - INFO - Successfully retrieved details for collection ASSIGNMENT
+2025-07-27 12:03:01,295 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:03:01] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:03:03,285 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:03:03,323 - services.collection_service - INFO - Successfully retrieved details for collection EMPLOYEE
+2025-07-27 12:03:03,329 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:03:03] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:05:12,034 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:05:12,037 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:05:12] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:05:12,054 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:05:12,104 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:05:12,118 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:05:12,152 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:05:12] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:13:00,530 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:13:00,533 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:13:00] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:13:00,613 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:13:00,680 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:13:00,691 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:13:00,695 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:13:00] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:13:10,939 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:13:10,943 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:13:10] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:13:10,970 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:13:11,059 - services.mongo_service - INFO - Retrieved 4 collections from database ICT702_4
+2025-07-27 12:13:11,062 - services.collection_service - INFO - Successfully retrieved 4 collections from ICT702_4
+2025-07-27 12:13:11,067 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:13:11] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:13:12,379 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:13:12,383 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:13:12] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:13:12,403 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:13:12,452 - services.collection_service - INFO - Successfully retrieved details for collection PROJECT
+2025-07-27 12:13:12,462 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:13:12] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:13:13,619 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:13:13,664 - services.collection_service - INFO - Successfully retrieved details for collection ASSIGNMENT
+2025-07-27 12:13:13,686 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:13:13] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:13:14,431 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:13:14,489 - services.collection_service - INFO - Successfully retrieved details for collection EMPLOYEE
+2025-07-27 12:13:14,497 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:13:14] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:13:15,288 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:13:15,336 - services.collection_service - INFO - Successfully retrieved details for collection JOB
+2025-07-27 12:13:15,346 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:13:15] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:18:39,799 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:18:39,804 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:18:39] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:18:39,879 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:18:39,950 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:18:39,956 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:18:39,961 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:18:39] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:18:43,506 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-27 12:18:43,508 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:18:43,515 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:18:43] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-27 12:18:43,559 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:18:43,563 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:18:43,567 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:18:43] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:29:16,437 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-27 12:29:16,439 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:29:16] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-27 12:29:16,444 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:29:16,450 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:29:16] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:29:16,469 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:29:16,525 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:29:16,528 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:29:16,532 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:29:16] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:29:28,980 - root - INFO - OPTIONS http://localhost:5000/api/backup/create - 127.0.0.1
+2025-07-27 12:29:28,983 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:29:28] "OPTIONS /api/backup/create HTTP/1.1" 200 -
+2025-07-27 12:29:29,002 - root - INFO - POST http://localhost:5000/api/backup/create - 127.0.0.1
+2025-07-27 12:29:29,095 - services.backup_service - INFO - Starting backup of database admin
+2025-07-27 12:29:29,191 - services.backup_service - INFO - Successfully created backup admin_backup_20250727_122929
+2025-07-27 12:29:29,195 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:29:29] "[35m[1mPOST /api/backup/create HTTP/1.1[0m" 201 -
+2025-07-27 12:29:30,804 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-27 12:29:30,818 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:29:30] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-27 12:30:02,537 - root - INFO - OPTIONS http://localhost:5000/api/backup/restore - 127.0.0.1
+2025-07-27 12:30:02,542 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:30:02] "OPTIONS /api/backup/restore HTTP/1.1" 200 -
+2025-07-27 12:30:02,560 - root - INFO - POST http://localhost:5000/api/backup/restore - 127.0.0.1
+2025-07-27 12:30:02,727 - services.backup_service - INFO - Starting restore of backup to database admin
+2025-07-27 12:30:02,808 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:30:02] "POST /api/backup/restore HTTP/1.1" 200 -
+2025-07-27 12:30:31,642 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:30:31,645 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:30:31] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:30:31,664 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:30:31,727 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:30:31,733 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:30:31,739 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:30:31] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:30:49,014 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:30:49,020 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:30:49] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:30:49,046 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:30:49,151 - services.mongo_service - INFO - Retrieved 4 collections from database ICT702_4
+2025-07-27 12:30:49,154 - services.collection_service - INFO - Successfully retrieved 4 collections from ICT702_4
+2025-07-27 12:30:49,157 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:30:49] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:30:54,555 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:30:54,558 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:30:54] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:30:54,578 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:30:54,649 - services.collection_service - INFO - Successfully retrieved details for collection EMPLOYEE
+2025-07-27 12:30:54,654 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:30:54] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:31:11,901 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:31:11,907 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:31:11] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:31:11,910 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-27 12:31:11,921 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:31:11] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-27 12:31:11,943 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:31:12,002 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:31:12,007 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:31:12,013 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:31:12] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:31:18,253 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-27 12:31:18,258 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:31:18] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-27 12:31:29,310 - root - INFO - OPTIONS http://localhost:5000/api/database/test-connection - 127.0.0.1
+2025-07-27 12:31:29,313 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:31:29] "OPTIONS /api/database/test-connection HTTP/1.1" 200 -
+2025-07-27 12:31:29,333 - root - INFO - POST http://localhost:5000/api/database/test-connection - 127.0.0.1
+2025-07-27 12:31:29,389 - services.mongo_service - INFO - Successfully connected to MongoDB 8.0.11
+2025-07-27 12:31:29,399 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:31:29] "POST /api/database/test-connection HTTP/1.1" 200 -
+2025-07-27 12:31:37,124 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:31:37,127 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:31:37] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:31:37,153 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:31:37,217 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:31:37,227 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:31:37,245 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:31:37] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:31:56,727 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:31:56,730 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:31:56] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:31:56,749 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:31:56,798 - services.collection_service - INFO - Successfully retrieved details for collection PROJECT
+2025-07-27 12:31:56,806 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:31:56] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:32:10,276 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:32:10,279 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:32:10] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:32:10,300 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:32:10,387 - services.mongo_service - INFO - Retrieved 3 collections from database admin
+2025-07-27 12:32:10,390 - services.collection_service - INFO - Successfully retrieved 3 collections from admin
+2025-07-27 12:32:10,395 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:32:10] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:32:53,248 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:32:53,252 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:32:53] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:32:53,255 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-27 12:32:53,276 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:32:53] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-27 12:32:53,291 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:32:53,369 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:32:53,377 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:32:53,381 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:32:53] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:33:52,924 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:33:52,928 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:33:52] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:33:52,952 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:33:53,025 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:33:53,031 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:33:53,038 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:33:53] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:34:33,407 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:34:33,410 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:34:33] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:34:33,427 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:34:33,470 - services.collection_service - INFO - Successfully retrieved details for collection PROJECT
+2025-07-27 12:34:33,479 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:34:33] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:34:40,626 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:34:40,629 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:34:40] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:34:40,678 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:34:40,782 - services.collection_service - INFO - Successfully retrieved details for collection ASSIGNMENT
+2025-07-27 12:34:40,792 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:34:40] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:36:50,558 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:36:50,562 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:36:50] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:36:50,618 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:36:50,681 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:36:50,692 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:36:50,708 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:36:50] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:36:52,565 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:36:52,567 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:36:52] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:36:52,619 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:36:52,724 - services.mongo_service - INFO - Retrieved 4 collections from database ICT702_4
+2025-07-27 12:36:52,729 - services.collection_service - INFO - Successfully retrieved 4 collections from ICT702_4
+2025-07-27 12:36:52,734 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:36:52] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:37:18,953 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:37:18,956 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:37:18] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:37:18,972 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:37:19,046 - services.collection_service - INFO - Successfully retrieved details for collection JOB
+2025-07-27 12:37:19,058 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:37:19] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:42:44,274 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:42:44,280 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:42:44] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:42:44,342 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:42:44,428 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:42:44,446 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:42:44,462 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:42:44] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:42:51,022 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:42:51,025 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:42:51] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:42:51,037 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:42:51,113 - services.mongo_service - INFO - Retrieved 4 collections from database ICT702_4
+2025-07-27 12:42:51,116 - services.collection_service - INFO - Successfully retrieved 4 collections from ICT702_4
+2025-07-27 12:42:51,119 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:42:51] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:43:00,710 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:43:00,713 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:43:00] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 12:43:00,730 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:43:00,782 - services.collection_service - INFO - Source collection PROJECT is empty
+2025-07-27 12:43:00,852 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: local variable 'copied_docs' referenced before assignment
+2025-07-27 12:43:00,855 - services.collection_service - ERROR - Failed to copy collection PROJECT: local variable 'copied_docs' referenced before assignment
+2025-07-27 12:43:00,856 - root - ERROR - Error occurred: local variable 'copied_docs' referenced before assignment
+2025-07-27 12:43:00,860 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:43:00] "[35m[1mPOST /api/collection/copy HTTP/1.1[0m" 500 -
+2025-07-27 12:43:03,862 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:43:03,893 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:43:03,897 - services.collection_service - ERROR - Failed to copy collection PROJECT: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:43:03,898 - root - ERROR - Error occurred: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:43:03,902 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:43:03] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:43:19,138 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:43:19,142 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:43:19] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:43:19,160 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:43:19,227 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:43:19,241 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:43:19,246 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:43:19] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:44:27,418 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-27 12:44:27,425 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:44:27] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-27 12:44:27,436 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:44:27,440 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:44:27] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:44:27,466 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:44:27,516 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:44:27,522 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:44:27,526 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:44:27] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:44:29,579 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:44:29,624 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:44:29,628 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:44:29,632 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:44:29] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:45:57,557 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:45:57,562 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:45:57] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:45:57,598 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:45:57,679 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:45:57,684 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:45:57,689 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:45:57] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:46:02,058 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:46:02,061 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:46:02] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:46:02,075 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:46:02,160 - services.mongo_service - INFO - Retrieved 4 collections from database ICT702_4
+2025-07-27 12:46:02,163 - services.collection_service - INFO - Successfully retrieved 4 collections from ICT702_4
+2025-07-27 12:46:02,166 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:46:02] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:46:09,969 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:46:09,972 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:46:09] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 12:46:09,989 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:46:10,026 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:46:10,031 - services.collection_service - ERROR - Failed to copy collection PROJECT: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:46:10,034 - root - ERROR - Error occurred: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:46:10,037 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:46:10] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:48:59,439 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:48:59,449 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:48:59] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 12:48:59,479 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:48:59,577 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:48:59,583 - services.collection_service - ERROR - Failed to copy collection PROJECT: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:48:59,584 - root - ERROR - Error occurred: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:48:59,610 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:48:59] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:50:26,471 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:50:26,474 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:50:26] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 12:50:26,489 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:50:26,514 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:26,516 - services.collection_service - ERROR - Failed to copy collection PROJECT: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:26,517 - root - ERROR - Error occurred: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:26,521 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:50:26] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:50:28,390 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:50:28,427 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:28,430 - services.collection_service - ERROR - Failed to copy collection PROJECT: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:28,430 - root - ERROR - Error occurred: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:28,434 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:50:28] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:50:29,093 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:50:29,126 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:29,130 - services.collection_service - ERROR - Failed to copy collection PROJECT: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:29,130 - root - ERROR - Error occurred: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:29,134 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:50:29] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:50:29,711 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:50:29,749 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:29,754 - services.collection_service - ERROR - Failed to copy collection PROJECT: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:29,756 - root - ERROR - Error occurred: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:29,759 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:50:29] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:50:30,557 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:50:30,599 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:30,603 - services.collection_service - ERROR - Failed to copy collection PROJECT: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:30,604 - root - ERROR - Error occurred: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:50:30,607 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:50:30] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:52:20,407 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:52:20,412 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:52:20] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 12:52:20,475 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:52:20,569 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:52:20,585 - services.collection_service - ERROR - Failed to copy collection PROJECT: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:52:20,588 - root - ERROR - Error occurred: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:52:20,590 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:52:20] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:52:24,594 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:52:24,694 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:52:24,718 - services.collection_service - ERROR - Failed to copy collection PROJECT: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:52:24,722 - root - ERROR - Error occurred: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:52:24,740 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:52:24] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:52:39,410 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:52:39,413 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:52:39] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 12:52:39,431 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:52:39,467 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:52:39,472 - services.collection_service - ERROR - Failed to copy collection PROJECT: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:52:39,478 - root - ERROR - Error occurred: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:52:39,487 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:52:39] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:53:41,085 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:53:41,088 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:53:41] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 12:53:41,104 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:53:41,128 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:53:41,132 - services.collection_service - ERROR - Failed to copy collection PROJECT: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:53:41,134 - root - ERROR - Error occurred: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:53:41,137 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:53:41] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:55:25,818 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:55:25,822 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:55:25] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 12:55:25,869 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:55:25,917 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:55:25,922 - services.collection_service - ERROR - Failed to copy collection PROJECT: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:55:25,927 - root - ERROR - Error occurred: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:55:25,932 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:55:25] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:55:34,889 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:55:34,891 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:55:34] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 12:55:34,907 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:55:34,941 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:55:34,944 - services.collection_service - ERROR - Failed to copy collection PROJECT: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:55:34,945 - root - ERROR - Error occurred: Target collection 'PROJECT_copy' already exists in database 'admin'
+2025-07-27 12:55:34,949 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:55:34] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:55:35,033 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:55:35,039 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:55:35] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:55:35,061 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:55:35,171 - services.mongo_service - INFO - Retrieved 4 collections from database admin
+2025-07-27 12:55:35,175 - services.collection_service - INFO - Successfully retrieved 4 collections from admin
+2025-07-27 12:55:35,181 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:55:35] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:56:37,263 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:56:37,266 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:56:37] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:56:37,280 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:56:37,331 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:56:37,336 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:56:37,344 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:56:37] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:56:44,747 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:56:44,750 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:56:44] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:56:44,764 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:56:44,855 - services.mongo_service - INFO - Retrieved 4 collections from database admin
+2025-07-27 12:56:44,858 - services.collection_service - INFO - Successfully retrieved 4 collections from admin
+2025-07-27 12:56:44,862 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:56:44] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:56:48,209 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:56:48,211 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:56:48] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:56:48,226 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:56:48,228 - root - ERROR - Error occurred: Collection name cannot start with 'system.'
+2025-07-27 12:56:48,231 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:56:48] "[31m[1mPOST /api/collection/details HTTP/1.1[0m" 400 -
+2025-07-27 12:56:49,210 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:56:49,252 - services.collection_service - INFO - Successfully retrieved details for collection EMPLOYEE_copy
+2025-07-27 12:56:49,258 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:56:49] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:56:58,047 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:56:58,051 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:56:58] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 12:56:58,071 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:56:58,102 - services.collection_service - INFO - Source collection EMPLOYEE_copy is empty
+2025-07-27 12:56:58,150 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: local variable 'copied_docs' referenced before assignment
+2025-07-27 12:56:58,154 - services.collection_service - ERROR - Failed to copy collection EMPLOYEE_copy: local variable 'copied_docs' referenced before assignment
+2025-07-27 12:56:58,155 - root - ERROR - Error occurred: local variable 'copied_docs' referenced before assignment
+2025-07-27 12:56:58,160 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:56:58] "[35m[1mPOST /api/collection/copy HTTP/1.1[0m" 500 -
+2025-07-27 12:57:04,917 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:57:04,920 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:57:04] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 12:57:04,939 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:57:04,971 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'EMPLOYEE_copy_copy' already exists in database 'ICT702_4'
+2025-07-27 12:57:04,975 - services.collection_service - ERROR - Failed to copy collection EMPLOYEE_copy: Target collection 'EMPLOYEE_copy_copy' already exists in database 'ICT702_4'
+2025-07-27 12:57:04,977 - root - ERROR - Error occurred: Target collection 'EMPLOYEE_copy_copy' already exists in database 'ICT702_4'
+2025-07-27 12:57:04,981 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:57:04] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:58:22,738 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:58:22,742 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:58:22] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:58:22,824 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:58:22,946 - services.collection_service - INFO - Successfully retrieved details for collection EMPLOYEE_copy
+2025-07-27 12:58:22,993 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:58:22] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:58:27,443 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:58:27,446 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:58:27] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 12:58:27,515 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:58:27,635 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'EMPLOYEE_copy_copy' already exists in database 'ICT702_4'
+2025-07-27 12:58:27,667 - services.collection_service - ERROR - Failed to copy collection EMPLOYEE_copy: Target collection 'EMPLOYEE_copy_copy' already exists in database 'ICT702_4'
+2025-07-27 12:58:27,672 - root - ERROR - Error occurred: Target collection 'EMPLOYEE_copy_copy' already exists in database 'ICT702_4'
+2025-07-27 12:58:27,683 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:58:27] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:58:29,409 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 12:58:29,439 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'EMPLOYEE_copy_copy' already exists in database 'ICT702_4'
+2025-07-27 12:58:29,443 - services.collection_service - ERROR - Failed to copy collection EMPLOYEE_copy: Target collection 'EMPLOYEE_copy_copy' already exists in database 'ICT702_4'
+2025-07-27 12:58:29,447 - root - ERROR - Error occurred: Target collection 'EMPLOYEE_copy_copy' already exists in database 'ICT702_4'
+2025-07-27 12:58:29,452 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:58:29] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 12:58:40,891 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:58:40,895 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:58:40] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:58:40,917 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 12:58:41,016 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 12:58:41,022 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 12:58:41,030 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:58:41] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 12:58:54,526 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:58:54,529 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:58:54] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:58:54,545 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:58:54,599 - services.mongo_service - INFO - Retrieved 1 collections from database local
+2025-07-27 12:58:54,604 - services.collection_service - INFO - Successfully retrieved 1 collections from local
+2025-07-27 12:58:54,607 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:58:54] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:58:56,636 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 12:58:56,728 - services.mongo_service - INFO - Retrieved 4 collections from database admin
+2025-07-27 12:58:56,731 - services.collection_service - INFO - Successfully retrieved 4 collections from admin
+2025-07-27 12:58:56,734 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:58:56] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-27 12:58:57,638 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:58:57,642 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:58:57] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-27 12:58:57,660 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 12:58:57,702 - services.collection_service - INFO - Successfully retrieved details for collection EMPLOYEE_copy
+2025-07-27 12:58:57,708 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 12:58:57] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 13:01:02,161 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 13:01:02,164 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:01:02] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 13:01:02,181 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 13:01:02,241 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'EMPLOYEE_copy_copy' already exists in database 'ICT702_4'
+2025-07-27 13:01:02,245 - services.collection_service - ERROR - Failed to copy collection EMPLOYEE_copy: Target collection 'EMPLOYEE_copy_copy' already exists in database 'ICT702_4'
+2025-07-27 13:01:02,247 - root - ERROR - Error occurred: Target collection 'EMPLOYEE_copy_copy' already exists in database 'ICT702_4'
+2025-07-27 13:01:02,254 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:01:02] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 13:01:27,669 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 13:01:27,672 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:01:27] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 13:01:27,690 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 13:01:27,728 - services.collection_service - INFO - Source collection PROJECT_copy is empty
+2025-07-27 13:01:27,781 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: local variable 'copied_docs' referenced before assignment
+2025-07-27 13:01:27,787 - services.collection_service - ERROR - Failed to copy collection PROJECT_copy: local variable 'copied_docs' referenced before assignment
+2025-07-27 13:01:27,788 - root - ERROR - Error occurred: local variable 'copied_docs' referenced before assignment
+2025-07-27 13:01:27,792 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:01:27] "[35m[1mPOST /api/collection/copy HTTP/1.1[0m" 500 -
+2025-07-27 13:01:30,533 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 13:01:30,557 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'PROJECT_copy_copy' already exists in database 'rbac_system'
+2025-07-27 13:01:30,559 - services.collection_service - ERROR - Failed to copy collection PROJECT_copy: Target collection 'PROJECT_copy_copy' already exists in database 'rbac_system'
+2025-07-27 13:01:30,560 - root - ERROR - Error occurred: Target collection 'PROJECT_copy_copy' already exists in database 'rbac_system'
+2025-07-27 13:01:30,563 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:01:30] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 13:02:13,802 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 13:02:13,805 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:02:13] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 13:02:13,820 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 13:02:13,848 - services.collection_service - INFO - Source collection EMPLOYEE_copy is empty
+2025-07-27 13:02:13,906 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: local variable 'copied_docs' referenced before assignment
+2025-07-27 13:02:13,910 - services.collection_service - ERROR - Failed to copy collection EMPLOYEE_copy: local variable 'copied_docs' referenced before assignment
+2025-07-27 13:02:13,910 - root - ERROR - Error occurred: local variable 'copied_docs' referenced before assignment
+2025-07-27 13:02:13,913 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:02:13] "[35m[1mPOST /api/collection/copy HTTP/1.1[0m" 500 -
+2025-07-27 13:02:49,645 - root - INFO - OPTIONS http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 13:02:49,648 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:02:49] "OPTIONS /api/collection/copy HTTP/1.1" 200 -
+2025-07-27 13:02:49,670 - root - INFO - POST http://localhost:5000/api/collection/copy - 127.0.0.1
+2025-07-27 13:02:49,702 - services.mongo_service - ERROR - Unexpected error during MongoDB connection: Target collection 'EMPLOYEE_copy_copy' already exists in database 'rbac_system'
+2025-07-27 13:02:49,707 - services.collection_service - ERROR - Failed to copy collection EMPLOYEE_copy: Target collection 'EMPLOYEE_copy_copy' already exists in database 'rbac_system'
+2025-07-27 13:02:49,708 - root - ERROR - Error occurred: Target collection 'EMPLOYEE_copy_copy' already exists in database 'rbac_system'
+2025-07-27 13:02:49,712 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:02:49] "[31m[1mPOST /api/collection/copy HTTP/1.1[0m" 400 -
+2025-07-27 13:02:54,293 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-27 13:02:54,295 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 13:02:54,300 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:02:54] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-27 13:02:54,305 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:02:54] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 13:02:54,331 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 13:02:54,368 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 13:02:54,371 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 13:02:54,375 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:02:54] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 13:02:56,681 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-27 13:02:56,682 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 13:02:56,700 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:02:56] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-27 13:02:56,749 - services.mongo_service - INFO - Retrieved 6 databases
+2025-07-27 13:02:56,752 - services.database_service - INFO - Successfully retrieved 6 databases
+2025-07-27 13:02:56,759 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:02:56] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 13:06:24,803 - werkzeug - INFO -  * Detected change in '/home/bowen/work/DB-MANAGER/server/seed/seed.py', reloading
+2025-07-27 13:06:25,599 - werkzeug - INFO -  * Restarting with stat
+2025-07-27 13:06:27,219 - root - INFO - Ensured directory exists: ./backups
+2025-07-27 13:06:27,219 - root - INFO - Ensured directory exists: ./temp
+2025-07-27 13:06:27,220 - root - INFO - Ensured directory exists: ./logs
+2025-07-27 13:06:27,306 - werkzeug - WARNING -  * Debugger is active!
+2025-07-27 13:06:27,308 - werkzeug - INFO -  * Debugger PIN: 265-450-209
+2025-07-27 13:09:19,840 - werkzeug - INFO -  * Detected change in '/home/bowen/work/DB-MANAGER/server/seed/seed.py', reloading
+2025-07-27 13:09:20,006 - werkzeug - INFO -  * Restarting with stat
+2025-07-27 13:09:21,781 - root - INFO - Ensured directory exists: ./backups
+2025-07-27 13:09:21,782 - root - INFO - Ensured directory exists: ./temp
+2025-07-27 13:09:21,782 - root - INFO - Ensured directory exists: ./logs
+2025-07-27 13:09:21,928 - werkzeug - WARNING -  * Debugger is active!
+2025-07-27 13:09:21,930 - werkzeug - INFO -  * Debugger PIN: 265-450-209
+2025-07-27 13:10:44,615 - werkzeug - INFO -  * Detected change in '/home/bowen/work/DB-MANAGER/server/seed/seed.py', reloading
+2025-07-27 13:10:44,821 - werkzeug - INFO -  * Restarting with stat
+2025-07-27 13:10:45,972 - root - INFO - Ensured directory exists: ./backups
+2025-07-27 13:10:45,973 - root - INFO - Ensured directory exists: ./temp
+2025-07-27 13:10:45,973 - root - INFO - Ensured directory exists: ./logs
+2025-07-27 13:10:46,055 - werkzeug - WARNING -  * Debugger is active!
+2025-07-27 13:10:46,056 - werkzeug - INFO -  * Debugger PIN: 265-450-209
+2025-07-27 13:12:35,362 - werkzeug - INFO -  * Detected change in '/home/bowen/work/DB-MANAGER/server/seed/seed.py', reloading
+2025-07-27 13:12:35,540 - werkzeug - INFO -  * Restarting with stat
+2025-07-27 13:12:36,534 - root - INFO - Ensured directory exists: ./backups
+2025-07-27 13:12:36,534 - root - INFO - Ensured directory exists: ./temp
+2025-07-27 13:12:36,535 - root - INFO - Ensured directory exists: ./logs
+2025-07-27 13:12:36,602 - werkzeug - WARNING -  * Debugger is active!
+2025-07-27 13:12:36,604 - werkzeug - INFO -  * Debugger PIN: 265-450-209
+2025-07-27 13:12:52,669 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 13:12:52,672 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:12:52] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 13:12:52,688 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 13:12:52,774 - services.mongo_service - INFO - Retrieved 13 databases
+2025-07-27 13:12:52,778 - services.database_service - INFO - Successfully retrieved 13 databases
+2025-07-27 13:12:52,782 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:12:52] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 13:13:05,783 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 13:13:05,785 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:05] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-27 13:13:05,800 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 13:13:05,939 - services.mongo_service - INFO - Retrieved 4 collections from database ecommerce_store
+2025-07-27 13:13:05,942 - services.collection_service - INFO - Successfully retrieved 4 collections from ecommerce_store
+2025-07-27 13:13:05,947 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:05] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-27 13:13:08,271 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 13:13:08,275 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:08] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-27 13:13:08,291 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 13:13:08,344 - services.collection_service - INFO - Successfully retrieved details for collection orders
+2025-07-27 13:13:08,358 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:08] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 13:13:27,628 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 13:13:27,629 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-27 13:13:27,632 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:27] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 13:13:27,643 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:27] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-27 13:13:27,663 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 13:13:27,787 - services.mongo_service - INFO - Retrieved 13 databases
+2025-07-27 13:13:27,792 - services.database_service - INFO - Successfully retrieved 13 databases
+2025-07-27 13:13:27,797 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:27] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 13:13:29,823 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 13:13:29,888 - services.mongo_service - INFO - Retrieved 13 databases
+2025-07-27 13:13:29,893 - services.database_service - INFO - Successfully retrieved 13 databases
+2025-07-27 13:13:29,898 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:29] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-27 13:13:39,665 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 13:13:39,669 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:39] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-27 13:13:39,688 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 13:13:39,750 - services.collection_service - INFO - Successfully retrieved details for collection products
+2025-07-27 13:13:39,764 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:39] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 13:13:49,286 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 13:13:49,289 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:49] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-27 13:13:49,302 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 13:13:49,349 - services.mongo_service - INFO - Retrieved 1 collections from database config
+2025-07-27 13:13:49,354 - services.collection_service - INFO - Successfully retrieved 1 collections from config
+2025-07-27 13:13:49,359 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:49] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-27 13:13:50,251 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 13:13:50,254 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:50] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-27 13:13:50,266 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 13:13:50,267 - root - ERROR - Error occurred: Collection name cannot start with 'system.'
+2025-07-27 13:13:50,270 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:50] "[31m[1mPOST /api/collection/details HTTP/1.1[0m" 400 -
+2025-07-27 13:13:55,518 - root - INFO - OPTIONS http://localhost:5000/api/collection/drop - 127.0.0.1
+2025-07-27 13:13:55,521 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:55] "OPTIONS /api/collection/drop HTTP/1.1" 200 -
+2025-07-27 13:13:55,533 - root - INFO - DELETE http://localhost:5000/api/collection/drop - 127.0.0.1
+2025-07-27 13:13:55,534 - root - ERROR - Error occurred: Invalid collection name 'system.sessions': Collection name cannot start with 'system.'
+2025-07-27 13:13:55,536 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:13:55] "[31m[1mDELETE /api/collection/drop HTTP/1.1[0m" 400 -
+2025-07-27 13:14:11,376 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 13:14:11,383 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:14:11] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-27 13:14:11,461 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-27 13:14:11,565 - services.mongo_service - INFO - Retrieved 3 collections from database system_monitoring
+2025-07-27 13:14:11,570 - services.collection_service - INFO - Successfully retrieved 3 collections from system_monitoring
+2025-07-27 13:14:11,578 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:14:11] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-27 13:14:13,307 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 13:14:13,309 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:14:13] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-27 13:14:13,323 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-27 13:14:13,372 - services.collection_service - INFO - Successfully retrieved details for collection logs
+2025-07-27 13:14:13,378 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:14:13] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-27 13:14:23,305 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-27 13:14:23,307 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 13:14:23,312 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:14:23] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-27 13:14:23,318 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:14:23] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-27 13:14:23,349 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-27 13:14:23,423 - services.mongo_service - INFO - Retrieved 13 databases
+2025-07-27 13:14:23,426 - services.database_service - INFO - Successfully retrieved 13 databases
+2025-07-27 13:14:23,432 - werkzeug - INFO - 127.0.0.1 - - [27/Jul/2025 13:14:23] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-28 08:31:26,536 - root - INFO - Ensured directory exists: ./backups
+2025-07-28 08:31:26,538 - root - INFO - Ensured directory exists: ./temp
+2025-07-28 08:31:26,538 - root - INFO - Ensured directory exists: ./logs
+2025-07-28 08:31:26,792 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-28 08:31:26,793 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-28 08:31:26,797 - werkzeug - INFO -  * Restarting with stat
+2025-07-28 08:31:28,363 - root - INFO - Ensured directory exists: ./backups
+2025-07-28 08:31:28,364 - root - INFO - Ensured directory exists: ./temp
+2025-07-28 08:31:28,365 - root - INFO - Ensured directory exists: ./logs
+2025-07-28 08:31:28,484 - werkzeug - WARNING -  * Debugger is active!
+2025-07-28 08:31:28,946 - werkzeug - INFO -  * Debugger PIN: 144-044-286
+2025-07-28 08:31:33,422 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 08:31:33,428 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 08:31:33] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-28 08:31:33,448 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 08:31:33,675 - services.mongo_service - INFO - Retrieved 13 databases
+2025-07-28 08:31:33,681 - services.database_service - INFO - Successfully retrieved 13 databases
+2025-07-28 08:31:33,688 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 08:31:33] "POST /api/database/list HTTP/1.1" 200 -
+2025-07-28 08:32:00,921 - root - INFO - OPTIONS http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-28 08:32:00,924 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 08:32:00] "OPTIONS /api/collection/list HTTP/1.1" 200 -
+2025-07-28 08:32:00,960 - root - INFO - POST http://localhost:5000/api/collection/list - 127.0.0.1
+2025-07-28 08:32:01,229 - services.mongo_service - INFO - Retrieved 4 collections from database admin
+2025-07-28 08:32:01,240 - services.collection_service - INFO - Successfully retrieved 4 collections from admin
+2025-07-28 08:32:01,250 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 08:32:01] "POST /api/collection/list HTTP/1.1" 200 -
+2025-07-28 08:32:03,468 - root - INFO - OPTIONS http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 08:32:03,472 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 08:32:03] "OPTIONS /api/collection/details HTTP/1.1" 200 -
+2025-07-28 08:32:03,516 - root - INFO - POST http://localhost:5000/api/collection/details - 127.0.0.1
+2025-07-28 08:32:03,668 - services.collection_service - INFO - Successfully retrieved details for collection JOB_copy
+2025-07-28 08:32:03,688 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 08:32:03] "POST /api/collection/details HTTP/1.1" 200 -
+2025-07-28 08:33:16,917 - root - INFO - OPTIONS http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 08:33:16,918 - root - INFO - GET http://localhost:5000/api/backup/list - 127.0.0.1
+2025-07-28 08:33:16,933 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 08:33:16] "OPTIONS /api/database/list HTTP/1.1" 200 -
+2025-07-28 08:33:16,944 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 08:33:16] "GET /api/backup/list HTTP/1.1" 200 -
+2025-07-28 08:33:17,002 - root - INFO - POST http://localhost:5000/api/database/list - 127.0.0.1
+2025-07-28 08:33:17,185 - services.mongo_service - INFO - Retrieved 13 databases
+2025-07-28 08:33:17,197 - services.database_service - INFO - Successfully retrieved 13 databases
+2025-07-28 08:33:17,208 - werkzeug - INFO - 127.0.0.1 - - [28/Jul/2025 08:33:17] "POST /api/database/list HTTP/1.1" 200 -

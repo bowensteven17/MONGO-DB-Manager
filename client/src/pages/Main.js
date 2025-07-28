@@ -1,15 +1,27 @@
+// src/main.js - Updated with navigation support
 import { useState } from 'react';
 import Sidebar from "../components/Sidebar";
 import DatabaseCard from "../components/databaseCard";
+import BackupManager from "../components/backup/BackupManager";
+import Settings from "../components/Settings";
 
 function Main() {
     const [selectedCollection, setSelectedCollection] = useState(null);
+    const [activeSection, setActiveSection] = useState('database');
 
     const handleCollectionSelect = (databaseName, collectionName) => {
         setSelectedCollection({ databaseName, collectionName });
     };
 
-    const renderContent = () => {
+    const handleNavigationChange = (section) => {
+        setActiveSection(section);
+        // Clear collection selection when switching away from database section
+        if (section !== 'database') {
+            setSelectedCollection(null);
+        }
+    };
+
+    const renderDatabaseContent = () => {
         if (selectedCollection) {
             return (
                 <DatabaseCard 
@@ -19,7 +31,7 @@ function Main() {
             );
         }
 
-        // Default welcome screen
+        // Default welcome screen for database section
         return (
             <div className="flex items-center justify-center h-full bg-gray-50">
                 <div className="text-center">
@@ -41,7 +53,7 @@ function Main() {
                         </div>
                         <div className="flex items-center text-sm text-gray-600">
                             <svg className="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                             </svg>
                             Copy and manage collections
                         </div>
@@ -57,9 +69,29 @@ function Main() {
         );
     };
 
+    const renderContent = () => {
+        switch (activeSection) {
+            case 'database':
+                return renderDatabaseContent();
+            
+            case 'backup':
+                return <BackupManager />;
+            
+            case 'settings':
+                return <Settings />;
+            
+            default:
+                return renderDatabaseContent();
+        }
+    };
+
     return (
         <div className="flex h-screen">
-            <Sidebar onCollectionSelect={handleCollectionSelect} />
+            <Sidebar 
+                onCollectionSelect={handleCollectionSelect}
+                onNavigationChange={handleNavigationChange}
+                activeSection={activeSection}
+            />
             <div className="flex-1 overflow-auto">
                 {renderContent()}
             </div>

@@ -15,7 +15,7 @@ def list_collections():
         data = request.get_json()
         connection_string = data['connection_string']
         database_name = data['database_name']
-        
+        print(data)
         result = collection_service.list_collections(connection_string, database_name)
         return jsonify(result), 200
         

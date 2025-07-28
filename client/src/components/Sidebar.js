@@ -1,3 +1,4 @@
+// src/components/Sidebar.js - Complete navigation sidebar with copy modal
 import { useState, useEffect } from 'react';
 import {
   ChevronRightIcon,
@@ -10,20 +11,25 @@ import {
   ArchiveIcon,
   UploadIcon,
   RefreshIcon,
+  CogIcon,
 } from '@heroicons/react/outline';
-import ConfirmationModal from "../features/confirmationModal"
+import ConfirmationModal from "../features/confirmationModal";
+import CopyCollectionModal from "./CopyCollectionModal";
 
-function Sidebar({ onCollectionSelect }) {
+function Sidebar({ onNavigationChange, onCollectionSelect }) {
+  const [activeSection, setActiveSection] = useState('database');
   const [databases, setDatabases] = useState([]);
   const [expandedDb, setExpandedDb] = useState(null);
   const [activeItem, setActiveItem] = useState({ type: null, name: null });
   const [collections, setCollections] = useState({}); // Store collections for each database
   const [loading, setLoading] = useState(false);
-  const [connectionString] = useState("mongodb://localhost:27017"); // You might want to make this configurable
+  const [connectionString] = useState("mongodb://localhost:27017");
 
   useEffect(() => {
-    fetchDatabases();
-  }, []);
+    if (activeSection === 'database') {
+      fetchDatabases();
+    }
+  }, [activeSection]);
 
   const fetchDatabases = async () => {
     try {
@@ -89,12 +95,28 @@ function Sidebar({ onCollectionSelect }) {
     }
   };
 
+  // Navigation section handling
+  const handleSectionChange = (section) => {
+    setActiveSection(section);
+    // Notify parent component about section change
+    if (onNavigationChange) {
+      onNavigationChange(section);
+    }
+  };
+
   // --- Modal state management ---
   const [modalState, setModalState] = useState({
     isOpen: false,
     title: '',
     message: '',
     onConfirm: () => {},
+  });
+
+  // --- Copy Modal state management ---
+  const [copyModalState, setCopyModalState] = useState({
+    isOpen: false,
+    sourceDatabase: '',
+    sourceCollection: '',
   });
 
   const handleSelectDatabase = (db) => {
@@ -113,7 +135,36 @@ function Sidebar({ onCollectionSelect }) {
   };
   
   const handleCopyCollection = (dbName, collName) => {
-    alert(`Copying collection "${collName}" from "${dbName}".`);
+    setCopyModalState({
+      isOpen: true,
+      sourceDatabase: dbName,
+      sourceCollection: collName,
+    });
+  };
+
+  const handleCopySuccess = async (targetDatabase, newCollectionName) => {
+    console.log(`Successfully copied collection to ${targetDatabase}/${newCollectionName}`);
+    
+    // Refresh the target database collections
+    await fetchCollections(targetDatabase);
+    
+    // Auto-expand the target database to show the new collection
+    setExpandedDb(targetDatabase);
+    
+    // Close the copy modal
+    setCopyModalState({
+      isOpen: false,
+      sourceDatabase: '',
+      sourceCollection: '',
+    });
+  };
+
+  const closeCopyModal = () => {
+    setCopyModalState({
+      isOpen: false,
+      sourceDatabase: '',
+      sourceCollection: '',
+    });
   };
 
   const handleDropCollection = (dbName, collName) => {
@@ -161,14 +212,32 @@ function Sidebar({ onCollectionSelect }) {
     setModalState({ isOpen: false, title: '', message: '', onConfirm: () => {} });
   };
 
-  const handleBackupDatabase = (dbName) => {
-    alert(`Starting backup for database: ${dbName}`);
-    // TODO: Implement backup functionality
+  const handleBackupDatabase = async (dbName) => {
+    try {
+      const res = await fetch('http://localhost:5000/api/backup/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          connection_string: connectionString,
+          database_name: dbName,
+        })
+      });
+
+      if (res.ok) {
+        const result = await res.json();
+        alert(`Backup created: ${result.backup.name}`);
+      } else {
+        const error = await res.json();
+        alert(`Backup failed: ${error.message}`);
+      }
+    } catch (error) {
+      alert(`Backup failed: ${error.message}`);
+    }
   };
   
   const handleRestoreDatabase = (dbName) => {
     alert(`Restoring database: ${dbName}`);
-    // TODO: Implement restore functionality
+    // TODO: Implement restore functionality - should probably show restore modal
   };
 
   const toggleDb = async (dbName) => {
@@ -189,22 +258,154 @@ function Sidebar({ onCollectionSelect }) {
     setExpandedDb(null);
   };
 
-  if (loading) {
-    return (
-      <div className="flex flex-col h-screen w-72 bg-gray-800 text-gray-200">
-        <div className="flex items-center justify-center h-16 px-4 border-b border-gray-700">
-          <CubeTransparentIcon className="h-8 w-8 text-blue-400 mr-2" />
-          <h1 className="text-xl font-bold text-white">Mongo Explorer</h1>
+  // Render different content based on active section
+  const renderDatabaseSection = () => {
+    if (loading) {
+      return (
+        <div className="flex items-center justify-center p-4">
+          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-400"></div>
+          <span className="ml-2 text-sm text-gray-400">Loading...</span>
         </div>
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400 mx-auto mb-2"></div>
-            <div className="text-gray-400 text-sm">Loading databases...</div>
+      );
+    }
+
+    if (databases.length === 0) {
+      return (
+        <div className="p-4 text-center text-gray-400 text-sm">
+          No databases found
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-2">
+        {databases.map((db) => (
+          <div key={db.name}>
+            {/* Database Item */}
+            <div
+              className={`group flex items-center justify-between px-2 py-2 text-sm font-medium rounded-md cursor-pointer transition-colors ${
+                activeItem?.type === 'database' && activeItem?.name === db.name 
+                  ? 'bg-blue-600 text-white' 
+                  : 'hover:bg-gray-700 hover:text-white'
+              }`}
+            >
+              <div className="flex items-center flex-1" onClick={() => handleSelectDatabase(db)}>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); toggleDb(db.name); }} 
+                  className="mr-2 p-1 rounded-full hover:bg-gray-600 transition-colors"
+                >
+                  {expandedDb === db.name ? 
+                    <ChevronDownIcon className="h-4 w-4" /> : 
+                    <ChevronRightIcon className="h-4 w-4" />
+                  }
+                </button>
+                <DatabaseIcon className="h-5 w-5 mr-3 flex-shrink-0" />
+                <div className="flex flex-col items-start min-w-0">
+                  <span className="truncate font-medium">{db.name}</span>
+                  <span className="text-xs text-gray-400">
+                    {db.collections} collections • {(db.sizeOnDisk / (1024 * 1024)).toFixed(1)} MB
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Collections List */}
+            {expandedDb === db.name && (
+              <div className="pl-6 mt-1 space-y-1">
+                {collections[db.name] ? (
+                  collections[db.name].length === 0 ? (
+                    <div className="text-gray-400 text-xs py-2 px-2">No collections found</div>
+                  ) : (
+                    collections[db.name].map((coll) => (
+                      <div
+                        key={coll.name}
+                        className={`group flex items-center justify-between px-2 py-2 text-sm rounded-md cursor-pointer transition-colors ${
+                          activeItem?.type === 'collection' && 
+                          activeItem?.name === coll.name && 
+                          activeItem?.db === db.name 
+                            ? 'bg-blue-500 text-white' 
+                            : 'hover:bg-gray-700 hover:text-white'
+                        }`}
+                      >
+                        <div className="flex items-center flex-1 min-w-0" onClick={() => handleSelectCollection(db.name, coll)}>
+                          <DocumentTextIcon className="h-4 w-4 mr-3 text-gray-400 flex-shrink-0" />
+                          <div className="flex flex-col items-start min-w-0">
+                            <span className="truncate text-sm">{coll.name}</span>
+                            <span className="text-xs text-gray-400">
+                              {new Intl.NumberFormat().format(coll.count)} docs • {coll.type}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); handleCopyCollection(db.name, coll.name); }} 
+                            title="Copy Collection" 
+                            className="p-1 rounded-full hover:bg-gray-600 transition-colors"
+                          >
+                            <DuplicateIcon className="h-3 w-3" />
+                          </button>
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); handleDropCollection(db.name, coll.name); }} 
+                            title="Drop Collection" 
+                            className="p-1 rounded-full hover:bg-red-500 transition-colors"
+                          >
+                            <TrashIcon className="h-3 w-3" />
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )
+                ) : (
+                  <div className="text-gray-400 text-xs py-2 px-2 flex items-center">
+                    <div className="animate-spin rounded-full h-3 w-3 border-b border-gray-400 mr-2"></div>
+                    Loading collections...
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const renderBackupSection = () => {
+    return (
+      <div className="p-4 text-center text-gray-400">
+        <ArchiveIcon className="h-12 w-12 mx-auto mb-2 text-gray-500" />
+        <p className="text-sm">Backup Manager will be displayed in main area</p>
+      </div>
+    );
+  };
+
+  const renderSettingsSection = () => {
+    return (
+      <div className="p-4 space-y-3">
+        <div className="border-b border-gray-700 pb-2">
+          <h3 className="text-sm font-medium text-gray-300">Connection</h3>
+          <p className="text-xs text-gray-500 mt-1">localhost:27017</p>
+        </div>
+        <div className="border-b border-gray-700 pb-2">
+          <h3 className="text-sm font-medium text-gray-300">Backup Directory</h3>
+          <p className="text-xs text-gray-500 mt-1">./backups</p>
+        </div>
+        <div>
+          <h3 className="text-sm font-medium text-gray-300">Options</h3>
+          <div className="mt-2 space-y-1">
+            <label className="flex items-center text-xs">
+              <input type="checkbox" className="mr-2" defaultChecked />
+              Auto-refresh collections
+            </label>
+            <label className="flex items-center text-xs">
+              <input type="checkbox" className="mr-2" />
+              Compress backups
+            </label>
           </div>
         </div>
       </div>
     );
-  }
+  };
 
   return (
     <>
@@ -215,13 +416,15 @@ function Sidebar({ onCollectionSelect }) {
             <CubeTransparentIcon className="h-8 w-8 text-blue-400 mr-2" />
             <h1 className="text-xl font-bold text-white">Mongo Explorer</h1>
           </div>
-          <button 
-            onClick={refreshDatabases}
-            className="p-2 rounded-full hover:bg-gray-700 transition-colors"
-            title="Refresh databases"
-          >
-            <RefreshIcon className="h-5 w-5 text-gray-400 hover:text-white" />
-          </button>
+          {activeSection === 'database' && (
+            <button 
+              onClick={refreshDatabases}
+              className="p-2 rounded-full hover:bg-gray-700 transition-colors"
+              title="Refresh databases"
+            >
+              <RefreshIcon className="h-5 w-5 text-gray-400 hover:text-white" />
+            </button>
+          )}
         </div>
 
         {/* Connection Status */}
@@ -233,129 +436,48 @@ function Sidebar({ onCollectionSelect }) {
           </div>
         </div>
 
-        {/* Main Navigation */}
-        <nav className="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
-          {databases.length === 0 ? (
-            <div className="text-gray-400 text-center py-4 text-sm">
-              No databases found
-            </div>
-          ) : (
-            databases.map((db) => (
-              <div key={db.name}>
-                {/* Database Item */}
-                <div
-                  className={`group flex items-center justify-between px-2 py-2 text-sm font-medium rounded-md cursor-pointer transition-colors ${
-                    activeItem?.type === 'database' && activeItem?.name === db.name 
-                      ? 'bg-blue-600 text-white' 
-                      : 'hover:bg-gray-700 hover:text-white'
-                  }`}
-                >
-                  <div className="flex items-center flex-1" onClick={() => handleSelectDatabase(db)}>
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); toggleDb(db.name); }} 
-                      className="mr-2 p-1 rounded-full hover:bg-gray-600 transition-colors"
-                    >
-                      {expandedDb === db.name ? 
-                        <ChevronDownIcon className="h-4 w-4" /> : 
-                        <ChevronRightIcon className="h-4 w-4" />
-                      }
-                    </button>
-                    <DatabaseIcon className="h-5 w-5 mr-3 flex-shrink-0" />
-                    <div className="flex flex-col items-start min-w-0">
-                      <span className="truncate font-medium">{db.name}</span>
-                      <span className="text-xs text-gray-400">
-                        {db.collections} collections • {(db.sizeOnDisk / (1024 * 1024)).toFixed(1)} MB
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); handleBackupDatabase(db.name); }} 
-                      title="Backup Database" 
-                      className="p-1 rounded-full hover:bg-gray-600 transition-colors"
-                    >
-                      <ArchiveIcon className="h-4 w-4" />
-                    </button>
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); handleRestoreDatabase(db.name); }} 
-                      title="Restore Database" 
-                      className="p-1 rounded-full hover:bg-gray-600 transition-colors"
-                    >
-                      <UploadIcon className="h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Collections List */}
-                {expandedDb === db.name && (
-                  <div className="pl-6 mt-1 space-y-1">
-                    {collections[db.name] ? (
-                      collections[db.name].length === 0 ? (
-                        <div className="text-gray-400 text-xs py-2 px-2">No collections found</div>
-                      ) : (
-                        collections[db.name].map((coll) => (
-                          <div
-                            key={coll.name}
-                            className={`group flex items-center justify-between px-2 py-2 text-sm rounded-md cursor-pointer transition-colors ${
-                              activeItem?.type === 'collection' && 
-                              activeItem?.name === coll.name && 
-                              activeItem?.db === db.name 
-                                ? 'bg-blue-500 text-white' 
-                                : 'hover:bg-gray-700 hover:text-white'
-                            }`}
-                          >
-                            <div className="flex items-center flex-1 min-w-0" onClick={() => handleSelectCollection(db.name, coll)}>
-                              <DocumentTextIcon className="h-4 w-4 mr-3 text-gray-400 flex-shrink-0" />
-                              <div className="flex flex-col items-start min-w-0">
-                                <span className="truncate text-sm">{coll.name}</span>
-                                <span className="text-xs text-gray-400">
-                                  {new Intl.NumberFormat().format(coll.count)} docs • {coll.type}
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                              <button 
-                                onClick={(e) => { e.stopPropagation(); handleCopyCollection(db.name, coll.name); }} 
-                                title="Copy Collection" 
-                                className="p-1 rounded-full hover:bg-gray-600 transition-colors"
-                              >
-                                <DuplicateIcon className="h-3 w-3" />
-                              </button>
-                              <button 
-                                onClick={(e) => { e.stopPropagation(); handleDropCollection(db.name, coll.name); }} 
-                                title="Drop Collection" 
-                                className="p-1 rounded-full hover:bg-red-500 transition-colors"
-                              >
-                                <TrashIcon className="h-3 w-3" />
-                              </button>
-                            </div>
-                          </div>
-                        ))
-                      )
-                    ) : (
-                      <div className="text-gray-400 text-xs py-2 px-2 flex items-center">
-                        <div className="animate-spin rounded-full h-3 w-3 border-b border-gray-400 mr-2"></div>
-                        Loading collections...
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))
-          )}
-        </nav>
-
-        {/* Footer */}
-        <div className="flex-shrink-0 p-4 border-t border-gray-700">
-          <button className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-gray-700 rounded-md hover:bg-gray-600 transition-colors">
-            <svg className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
+        {/* Navigation Tabs */}
+        <div className="flex border-b border-gray-700">
+          <button
+            onClick={() => handleSectionChange('database')}
+            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+              activeSection === 'database'
+                ? 'bg-blue-600 text-white border-b-2 border-blue-400'
+                : 'text-gray-400 hover:text-white hover:bg-gray-700'
+            }`}
+          >
+            <DatabaseIcon className="h-4 w-4 inline mr-1" />
+            Database
+          </button>
+          <button
+            onClick={() => handleSectionChange('backup')}
+            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+              activeSection === 'backup'
+                ? 'bg-blue-600 text-white border-b-2 border-blue-400'
+                : 'text-gray-400 hover:text-white hover:bg-gray-700'
+            }`}
+          >
+            <ArchiveIcon className="h-4 w-4 inline mr-1" />
+            Backup
+          </button>
+          <button
+            onClick={() => handleSectionChange('settings')}
+            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+              activeSection === 'settings'
+                ? 'bg-blue-600 text-white border-b-2 border-blue-400'
+                : 'text-gray-400 hover:text-white hover:bg-gray-700'
+            }`}
+          >
+            <CogIcon className="h-4 w-4 inline mr-1" />
             Settings
           </button>
+        </div>
+
+        {/* Content Area */}
+        <div className="flex-1 px-2 py-4 overflow-y-auto">
+          {activeSection === 'database' && renderDatabaseSection()}
+          {activeSection === 'backup' && renderBackupSection()}
+          {activeSection === 'settings' && renderSettingsSection()}
         </div>
       </div>
       
@@ -368,6 +490,17 @@ function Sidebar({ onCollectionSelect }) {
       >
         {modalState.message}
       </ConfirmationModal>
+
+      {/* Copy Collection Modal */}
+      <CopyCollectionModal
+        isOpen={copyModalState.isOpen}
+        onClose={closeCopyModal}
+        sourceDatabase={copyModalState.sourceDatabase}
+        sourceCollection={copyModalState.sourceCollection}
+        connectionString={connectionString}
+        allDatabases={databases}
+        onCopySuccess={handleCopySuccess}
+      />
     </>
   );
 }
