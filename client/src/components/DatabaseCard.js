@@ -11,8 +11,16 @@ import {
   CubeIcon,
   ClockIcon,
   DuplicateIcon,
-  TrashIcon
+  TrashIcon,
+  TableIcon,
+  CodeIcon,
+  ViewGridIcon,
+  CheckIcon,
+  XIcon,
+  ChevronRightIcon,
+  ChevronDownIcon
 } from '@heroicons/react/outline';
+import CopyCollectionModal from './CopyCollectionModal';
 
 function DatabaseCard({ database, serverUrl, onBack }) {
   const [collections, setCollections] = useState([]);
@@ -21,11 +29,19 @@ function DatabaseCard({ database, serverUrl, onBack }) {
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
   const [error, setError] = useState('');
   const [selectedCollection, setSelectedCollection] = useState(null);
+  const [collectionDetails, setCollectionDetails] = useState(null);
+  const [isLoadingCollectionDetails, setIsLoadingCollectionDetails] = useState(false);
+  
+  // Copy collection modal state
+  const [showCopyModal, setShowCopyModal] = useState(false);
+  const [collectionToCopy, setCollectionToCopy] = useState(null);
+  const [allDatabases, setAllDatabases] = useState([]);
 
   useEffect(() => {
     if (database) {
       fetchDatabaseDetails();
       fetchCollections();
+      fetchAllDatabases();
     }
   }, [database]);
 
@@ -89,14 +105,90 @@ function DatabaseCard({ database, serverUrl, onBack }) {
     }
   };
 
+  const fetchAllDatabases = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/database/list', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          connection_string: serverUrl
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.databases) {
+        setAllDatabases(result.databases);
+      }
+    } catch (error) {
+      console.error('Failed to fetch all databases:', error);
+    }
+  };
+
+  const fetchCollectionDetails = async (collectionName) => {
+    setIsLoadingCollectionDetails(true);
+    setError('');
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/collection/details', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          connection_string: serverUrl,
+          database_name: database.name,
+          collection_name: collectionName
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.collection) {
+        setCollectionDetails(result.collection);
+      } else {
+        setError('Failed to fetch collection details: ' + (result.message || 'Unknown error'));
+      }
+    } catch (error) {
+      setError('Failed to fetch collection details: ' + error.message);
+    } finally {
+      setIsLoadingCollectionDetails(false);
+    }
+  };
+
   const handleRefresh = () => {
     fetchDatabaseDetails();
     fetchCollections();
+    fetchAllDatabases();
   };
 
   const handleCollectionClick = (collection) => {
     setSelectedCollection(collection);
-    // Future: This will show collection details
+    setCollectionDetails(null); // Clear previous details
+    fetchCollectionDetails(collection.name);
+  };
+
+  const handleCopyCollection = async (collection) => {
+    setCollectionToCopy(collection);
+    // Refresh database list to ensure we have up-to-date data for the modal
+    await fetchAllDatabases();
+    setShowCopyModal(true);
+  };
+
+  const handleCopySuccess = (targetDatabase, newCollectionName) => {
+    // Refresh collections to show any updates
+    fetchCollections();
+    // If copied to the same database, refresh the current view
+    if (targetDatabase === database.name) {
+      fetchDatabaseDetails();
+    }
+  };
+
+  const handleCloseCopyModal = () => {
+    setShowCopyModal(false);
+    setCollectionToCopy(null);
   };
 
   const formatBytes = (bytes) => {
@@ -272,7 +364,11 @@ function DatabaseCard({ database, serverUrl, onBack }) {
                   <div
                     key={index}
                     onClick={() => handleCollectionClick(collection)}
-                    className="group p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
+                    className={`group p-4 border rounded-lg hover:shadow-md transition-all cursor-pointer ${
+                      selectedCollection?.name === collection.name
+                        ? 'border-blue-500 bg-blue-50 shadow-md'
+                        : 'border-gray-200 hover:border-blue-300'
+                    }`}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex items-center min-w-0 flex-1">
@@ -280,11 +376,19 @@ function DatabaseCard({ database, serverUrl, onBack }) {
                           <DocumentTextIcon className="h-5 w-5 text-green-600" />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <h3 className="text-sm font-medium text-gray-900 truncate group-hover:text-blue-600">
+                          <h3 className={`text-sm font-medium truncate transition-colors ${
+                            selectedCollection?.name === collection.name
+                              ? 'text-blue-700'
+                              : 'text-gray-900 group-hover:text-blue-600'
+                          }`}>
                             {collection.name}
                           </h3>
-                          <p className="text-xs text-gray-500 mt-1">
-                            Collection
+                          <p className={`text-xs mt-1 ${
+                            selectedCollection?.name === collection.name
+                              ? 'text-blue-600'
+                              : 'text-gray-500'
+                          }`}>
+                            {selectedCollection?.name === collection.name ? 'Selected Collection' : 'Collection'}
                           </p>
                         </div>
                       </div>
@@ -292,7 +396,7 @@ function DatabaseCard({ database, serverUrl, onBack }) {
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            // Future: Copy collection functionality
+                            handleCopyCollection(collection);
                           }}
                           className="p-1 text-gray-400 hover:text-blue-600 rounded"
                           title="Copy Collection"
@@ -313,8 +417,15 @@ function DatabaseCard({ database, serverUrl, onBack }) {
                     </div>
                     
                     <div className="mt-3 pt-3 border-t border-gray-100">
-                      <p className="text-xs text-gray-400 text-center">
-                        Click to view collection details
+                      <p className={`text-xs text-center ${
+                        selectedCollection?.name === collection.name
+                          ? 'text-blue-500 font-medium'
+                          : 'text-gray-400'
+                      }`}>
+                        {selectedCollection?.name === collection.name
+                          ? 'Collection details shown below'
+                          : 'Click to view collection details'
+                        }
                       </p>
                     </div>
                   </div>
@@ -371,30 +482,250 @@ function DatabaseCard({ database, serverUrl, onBack }) {
           </div>
         </div>
 
-        {/* Future: Collection Details View */}
+        {/* Collection Details View */}
         {selectedCollection && (
           <div className="bg-white rounded-lg shadow-sm border border-gray-200">
             <div className="px-6 py-4 border-b border-gray-200">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  Collection: {selectedCollection.name}
-                </h2>
+                <div className="flex items-center">
+                  <div className="p-2 bg-green-100 rounded-lg mr-3">
+                    <CollectionIcon className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-900">
+                      {selectedCollection.name}
+                    </h2>
+                    <p className="text-sm text-gray-500">Collection Details</p>
+                  </div>
+                </div>
                 <button
-                  onClick={() => setSelectedCollection(null)}
-                  className="text-gray-400 hover:text-gray-600"
+                  onClick={() => {
+                    setSelectedCollection(null);
+                    setCollectionDetails(null);
+                  }}
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
                 >
-                  <ArrowLeftIcon className="h-5 w-5" />
+                  <XIcon className="h-5 w-5" />
                 </button>
               </div>
             </div>
+            
             <div className="p-6">
-              <p className="text-sm text-gray-500 text-center py-8">
-                Collection details view will be implemented in the next step
-              </p>
+              {isLoadingCollectionDetails ? (
+                <div className="flex items-center justify-center py-8">
+                  <div className="text-center">
+                    <RefreshIcon className="animate-spin h-6 w-6 text-blue-500 mx-auto mb-2" />
+                    <p className="text-sm text-gray-500">Loading collection details...</p>
+                  </div>
+                </div>
+              ) : collectionDetails ? (
+                <div className="space-y-6">
+                  {/* Collection Statistics */}
+                  <div>
+                    <h3 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                      <ChartBarIcon className="h-5 w-5 mr-2 text-blue-500" />
+                      Statistics
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                      <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                        <div className="flex items-center">
+                          <DocumentTextIcon className="h-6 w-6 text-blue-600 mr-3" />
+                          <div>
+                            <p className="text-sm font-medium text-blue-900">Documents</p>
+                            <p className="text-lg font-bold text-blue-800">
+                              {collectionDetails.stats.count.toLocaleString()}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+                        <div className="flex items-center">
+                          <CubeIcon className="h-6 w-6 text-green-600 mr-3" />
+                          <div>
+                            <p className="text-sm font-medium text-green-900">Data Size</p>
+                            <p className="text-lg font-bold text-green-800">
+                              {formatBytes(collectionDetails.stats.size)}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-purple-50 rounded-lg p-4 border border-purple-200">
+                        <div className="flex items-center">
+                          <ViewGridIcon className="h-6 w-6 text-purple-600 mr-3" />
+                          <div>
+                            <p className="text-sm font-medium text-purple-900">Storage Size</p>
+                            <p className="text-lg font-bold text-purple-800">
+                              {formatBytes(collectionDetails.stats.storageSize)}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-orange-50 rounded-lg p-4 border border-orange-200">
+                        <div className="flex items-center">
+                          <KeyIcon className="h-6 w-6 text-orange-600 mr-3" />
+                          <div>
+                            <p className="text-sm font-medium text-orange-900">Indexes</p>
+                            <p className="text-lg font-bold text-orange-800">
+                              {collectionDetails.stats.indexCount}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Additional Stats */}
+                    <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="bg-gray-50 rounded-lg p-3 border">
+                        <p className="text-xs text-gray-500">Average Document Size</p>
+                        <p className="text-sm font-semibold text-gray-900">
+                          {formatBytes(collectionDetails.stats.avgObjSize)}
+                        </p>
+                      </div>
+                      <div className="bg-gray-50 rounded-lg p-3 border">
+                        <p className="text-xs text-gray-500">Total Index Size</p>
+                        <p className="text-sm font-semibold text-gray-900">
+                          {formatBytes(collectionDetails.stats.totalIndexSize)}
+                        </p>
+                      </div>
+                      <div className="bg-gray-50 rounded-lg p-3 border">
+                        <p className="text-xs text-gray-500">Collection Type</p>
+                        <p className="text-sm font-semibold text-gray-900">
+                          {collectionDetails.stats.capped ? 'Capped' : 'Regular'}
+                          {collectionDetails.stats.capped && collectionDetails.stats.maxSize && (
+                            <span className="text-xs text-gray-500 ml-1">
+                              (Max: {formatBytes(collectionDetails.stats.maxSize)})
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Indexes */}
+                  <div>
+                    <h3 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                      <TableIcon className="h-5 w-5 mr-2 text-purple-500" />
+                      Indexes ({collectionDetails.indexes.length})
+                    </h3>
+                    <div className="border border-gray-200 rounded-lg overflow-hidden">
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                          <thead className="bg-gray-50">
+                            <tr>
+                              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Name
+                              </th>
+                              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Keys
+                              </th>
+                              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Properties
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="bg-white divide-y divide-gray-200">
+                            {collectionDetails.indexes.map((index, idx) => (
+                              <tr key={idx} className="hover:bg-gray-50">
+                                <td className="px-4 py-2 text-sm font-medium text-gray-900">
+                                  {index.name}
+                                </td>
+                                <td className="px-4 py-2 text-sm text-gray-600">
+                                  <code className="bg-gray-100 px-2 py-1 rounded text-xs">
+                                    {JSON.stringify(index.keys)}
+                                  </code>
+                                </td>
+                                <td className="px-4 py-2 text-sm">
+                                  <div className="flex flex-wrap gap-1">
+                                    {index.unique && (
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        Unique
+                                      </span>
+                                    )}
+                                    {index.sparse && (
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Sparse
+                                      </span>
+                                    )}
+                                    {index.background && (
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        Background
+                                      </span>
+                                    )}
+                                    {index.expireAfterSeconds && (
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        TTL: {index.expireAfterSeconds}s
+                                      </span>
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Sample Documents */}
+                  <div>
+                    <h3 className="text-md font-semibold text-gray-900 mb-4 flex items-center">
+                      <CodeIcon className="h-5 w-5 mr-2 text-green-500" />
+                      Sample Documents ({collectionDetails.sampleDocuments.length})
+                    </h3>
+                    {collectionDetails.sampleDocuments.length > 0 ? (
+                      <div className="space-y-3">
+                        {collectionDetails.sampleDocuments.map((doc, idx) => (
+                          <div key={idx} className="border border-gray-200 rounded-lg overflow-hidden">
+                            <div className="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                              <span className="text-xs font-medium text-gray-600">Document {idx + 1}</span>
+                            </div>
+                            <div className="p-4">
+                              <pre className="text-xs text-gray-800 overflow-x-auto bg-gray-50 p-3 rounded border">
+                                {JSON.stringify(doc, null, 2)}
+                              </pre>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8 border-2 border-dashed border-gray-300 rounded-lg">
+                        <DocumentTextIcon className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                        <p className="text-sm text-gray-500">No documents found in this collection</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <CollectionIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">Failed to Load Collection Details</h3>
+                  <p className="text-gray-500 mb-4">Unable to fetch details for this collection</p>
+                  <button
+                    onClick={() => fetchCollectionDetails(selectedCollection.name)}
+                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                  >
+                    Try Again
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}
       </div>
+
+      {/* Copy Collection Modal */}
+      <CopyCollectionModal
+        isOpen={showCopyModal}
+        onClose={handleCloseCopyModal}
+        sourceDatabase={database.name}
+        sourceCollection={collectionToCopy?.name}
+        connectionString={serverUrl}
+        allDatabases={allDatabases}
+        onCopySuccess={handleCopySuccess}
+      />
     </div>
   );
 }

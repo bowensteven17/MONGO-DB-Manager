@@ -26,23 +26,21 @@ const CopyCollectionModal = ({
     if (isOpen && sourceCollection) {
       // Reset form when modal opens
       setCollectionName(`${sourceCollection}_copy`);
-      // Only set target database if it's not already set or if there are no available databases
-      if (!targetDatabase && availableDatabases.length > 0) {
-        setTargetDatabase(availableDatabases[0].name);
-      }
+      // Reset target database to force fresh selection
+      setTargetDatabase('');
       setError('');
       setSuccess(false);
       setCopyResult(null);
       setCountdown(0);
     }
-  }, [isOpen, sourceCollection]); // Removed availableDatabases from dependency array
+  }, [isOpen, sourceCollection]);
 
-  // Separate effect to initialize target database only when modal first opens
+  // Separate effect to initialize target database when available databases are loaded
   useEffect(() => {
     if (isOpen && sourceCollection && availableDatabases.length > 0 && !targetDatabase) {
       setTargetDatabase(availableDatabases[0].name);
     }
-  }, [isOpen, sourceCollection, availableDatabases.length > 0]);
+  }, [isOpen, sourceCollection, availableDatabases.length, targetDatabase]);
   useEffect(() => {
     let interval = null;
     
@@ -178,7 +176,11 @@ const CopyCollectionModal = ({
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Target Database
             </label>
-            {availableDatabases.length === 0 ? (
+            {allDatabases.length === 0 ? (
+              <div className="text-sm text-gray-500 p-3 bg-gray-50 rounded-md">
+                🔄 Loading databases...
+              </div>
+            ) : availableDatabases.length === 0 ? (
               <div className="text-sm text-gray-500 p-3 bg-gray-50 rounded-md">
                 ⚠️ No other databases available. Create a new database first.
               </div>

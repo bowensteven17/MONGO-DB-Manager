@@ -24,6 +24,7 @@ function BackUp({ serverUrl }) {
   // Selection state
   const [selectedDatabases, setSelectedDatabases] = useState(new Set());
   const [selectedCollections, setSelectedCollections] = useState(new Set());
+  const [selectedDatabase, setSelectedDatabase] = useState(''); // For collections backup - only one database at a time
   
   // UI state
   const [isLoading, setIsLoading] = useState(false);
@@ -34,6 +35,16 @@ function BackUp({ serverUrl }) {
   useEffect(() => {
     fetchDatabases();
   }, []);
+
+  // Clear selections when changing views
+  useEffect(() => {
+    if (activeView === 'database') {
+      setSelectedCollections(new Set());
+      setSelectedDatabase('');
+    } else {
+      setSelectedDatabases(new Set());
+    }
+  }, [activeView]);
 
   const fetchDatabases = async () => {
     setIsLoading(true);
@@ -119,11 +130,23 @@ function BackUp({ serverUrl }) {
   };
 
   const handleCollectionSelection = (databaseName, collectionName) => {
+    // If selecting from a different database, clear previous selections
+    if (selectedDatabase && selectedDatabase !== databaseName) {
+      setSelectedCollections(new Set());
+      setSelectedDatabase(databaseName);
+    } else if (!selectedDatabase) {
+      setSelectedDatabase(databaseName);
+    }
+
     const collectionKey = `${databaseName}.${collectionName}`;
     const newSelected = new Set(selectedCollections);
     
     if (selectedCollections.has(collectionKey)) {
       newSelected.delete(collectionKey);
+      // If no collections selected, reset selected database
+      if (newSelected.size === 0) {
+        setSelectedDatabase('');
+      }
     } else {
       newSelected.add(collectionKey);
     }
@@ -136,6 +159,28 @@ function BackUp({ serverUrl }) {
       setSelectedDatabases(new Set());
     } else {
       setSelectedDatabases(new Set(databases.map(db => db.name)));
+    }
+  };
+
+  const handleSelectAllCollections = (databaseName) => {
+    const collections = collectionsData[databaseName] || [];
+    const collectionKeys = collections.map(col => `${databaseName}.${col.name}`);
+    
+    // Check if all collections in this database are selected
+    const allSelected = collectionKeys.every(key => selectedCollections.has(key));
+    
+    if (allSelected) {
+      // Deselect all collections from this database
+      const newSelected = new Set(selectedCollections);
+      collectionKeys.forEach(key => newSelected.delete(key));
+      setSelectedCollections(newSelected);
+      if (newSelected.size === 0) {
+        setSelectedDatabase('');
+      }
+    } else {
+      // Select all collections from this database (clear other selections first)
+      setSelectedDatabase(databaseName);
+      setSelectedCollections(new Set(collectionKeys));
     }
   };
 
@@ -410,6 +455,7 @@ function BackUp({ serverUrl }) {
         const totalDatabases = Object.keys(collectionsByDatabase).length;
         setSuccessMessage(`Successfully created backups for ${totalCollections} collection(s) across ${totalDatabases} database(s). Downloads will start automatically.`);
         setSelectedCollections(new Set());
+        setSelectedDatabase('');
       }
 
       // Trigger downloads for all created backups
@@ -594,8 +640,28 @@ function BackUp({ serverUrl }) {
           // Collections View
           <div className="bg-white rounded-lg shadow-sm border border-gray-200">
             <div className="px-6 py-4 border-b border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-900">Select Collections to Backup</h2>
-              <p className="text-sm text-gray-500 mt-1">Expand databases to view their collections</p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-900">Select Collections to Backup</h2>
+                  <p className="text-sm text-gray-500 mt-1">
+                    {selectedDatabase 
+                      ? `Selecting collections from: ${selectedDatabase} (${selectedCollections.size} selected)`
+                      : 'Choose collections from one database at a time'
+                    }
+                  </p>
+                </div>
+                {selectedDatabase && (
+                  <button
+                    onClick={() => {
+                      setSelectedCollections(new Set());
+                      setSelectedDatabase('');
+                    }}
+                    className="text-sm text-red-600 hover:text-red-700 font-medium"
+                  >
+                    Clear Selection
+                  </button>
+                )}
+              </div>
             </div>
             
             <div className="p-6">
@@ -606,30 +672,80 @@ function BackUp({ serverUrl }) {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {databases.map((database, index) => (
-                    <div key={index} className="border border-gray-200 rounded-lg">
-                      {/* Database Header */}
-                      <div
-                        onClick={() => toggleDatabaseExpansion(database.name)}
-                        className="p-4 cursor-pointer hover:bg-gray-50 transition-colors"
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            {expandedDatabases.has(database.name) ? (
-                              <ChevronDownIcon className="h-4 w-4 text-gray-400 mr-2" />
-                            ) : (
-                              <ChevronRightIcon className="h-4 w-4 text-gray-400 mr-2" />
-                            )}
-                            <DatabaseIcon className="h-5 w-5 text-blue-500 mr-3" />
-                            <div>
-                              <h3 className="text-sm font-medium text-gray-900">{database.name}</h3>
-                              <p className="text-xs text-gray-500">
-                                {formatBytes(database.sizeOnDisk)} • {database.collections || 0} collections
-                              </p>
+                  {databases.map((database, index) => {
+                    const isSelectedDatabase = selectedDatabase === database.name;
+                    const hasSelectionsFromThisDb = selectedDatabase === database.name && selectedCollections.size > 0;
+                    const isDisabled = selectedDatabase && selectedDatabase !== database.name;
+                    
+                    return (
+                      <div key={index} className={`border rounded-lg ${
+                        isSelectedDatabase ? 'border-blue-300 bg-blue-50' : 
+                        isDisabled ? 'border-gray-200 bg-gray-50 opacity-60' : 
+                        'border-gray-200'
+                      }`}>
+                        {/* Database Header */}
+                        <div
+                          onClick={() => !isDisabled && toggleDatabaseExpansion(database.name)}
+                          className={`p-4 transition-colors ${
+                            isDisabled ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-gray-50'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                              {expandedDatabases.has(database.name) ? (
+                                <ChevronDownIcon className="h-4 w-4 text-gray-400 mr-2" />
+                              ) : (
+                                <ChevronRightIcon className="h-4 w-4 text-gray-400 mr-2" />
+                              )}
+                              <DatabaseIcon className={`h-5 w-5 mr-3 ${
+                                isSelectedDatabase ? 'text-blue-600' : 'text-blue-500'
+                              }`} />
+                              <div>
+                                <div className="flex items-center">
+                                  <h3 className={`text-sm font-medium ${
+                                    isSelectedDatabase ? 'text-blue-900' : 'text-gray-900'
+                                  }`}>{database.name}</h3>
+                                  {isSelectedDatabase && (
+                                    <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                      Selected
+                                    </span>
+                                  )}
+                                  {isDisabled && (
+                                    <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                                      Disabled
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-xs text-gray-500">
+                                  {formatBytes(database.sizeOnDisk)} • {database.collections || 0} collections
+                                  {hasSelectionsFromThisDb && (
+                                    <span className="text-blue-600 font-medium ml-1">
+                                      • {selectedCollections.size} selected
+                                    </span>
+                                  )}
+                                </p>
+                              </div>
                             </div>
+                            {expandedDatabases.has(database.name) && collectionsData[database.name] && (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleSelectAllCollections(database.name);
+                                }}
+                                disabled={isDisabled}
+                                className={`text-sm font-medium transition-colors ${
+                                  isDisabled ? 'text-gray-400 cursor-not-allowed' :
+                                  'text-blue-600 hover:text-blue-700'
+                                }`}
+                              >
+                                {collectionsData[database.name] && 
+                                collectionsData[database.name].every(col => 
+                                  selectedCollections.has(`${database.name}.${col.name}`)
+                                ) ? 'Deselect All' : 'Select All'}
+                              </button>
+                            )}
                           </div>
                         </div>
-                      </div>
 
                       {/* Collections List */}
                       {expandedDatabases.has(database.name) && (
@@ -641,27 +757,45 @@ function BackUp({ serverUrl }) {
                               </div>
                             ) : (
                               <div className="p-4 space-y-2">
+                                {isDisabled && (
+                                  <div className="mb-3 p-2 bg-yellow-50 border border-yellow-200 rounded-md">
+                                    <p className="text-xs text-yellow-700 text-center">
+                                      Collections from "{selectedDatabase}" are currently selected. Clear selection to choose from this database.
+                                    </p>
+                                  </div>
+                                )}
                                 {collectionsData[database.name].map((collection, collIndex) => {
                                   const collectionKey = `${database.name}.${collection.name}`;
+                                  const isCollectionSelected = selectedCollections.has(collectionKey);
+                                  
                                   return (
                                     <div
                                       key={collIndex}
-                                      onClick={() => handleCollectionSelection(database.name, collection.name)}
-                                      className={`p-3 rounded-md cursor-pointer transition-colors ${
-                                        selectedCollections.has(collectionKey)
+                                      onClick={() => !isDisabled && handleCollectionSelection(database.name, collection.name)}
+                                      className={`p-3 rounded-md transition-colors ${
+                                        isDisabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
+                                      } ${
+                                        isCollectionSelected
                                           ? 'bg-blue-100 border border-blue-300'
+                                          : isDisabled
+                                          ? 'bg-gray-100 border border-gray-200'
                                           : 'bg-white border border-gray-200 hover:bg-gray-50'
                                       }`}
                                     >
                                       <div className="flex items-center">
                                         <input
                                           type="checkbox"
-                                          checked={selectedCollections.has(collectionKey)}
-                                          onChange={() => handleCollectionSelection(database.name, collection.name)}
-                                          className="h-4 w-4 text-blue-600 rounded border-gray-300 mr-3"
+                                          checked={isCollectionSelected}
+                                          onChange={() => !isDisabled && handleCollectionSelection(database.name, collection.name)}
+                                          disabled={isDisabled}
+                                          className="h-4 w-4 text-blue-600 rounded border-gray-300 mr-3 disabled:opacity-50"
                                         />
-                                        <DocumentTextIcon className="h-4 w-4 text-green-500 mr-2" />
-                                        <span className="text-sm font-medium text-gray-900">
+                                        <DocumentTextIcon className={`h-4 w-4 mr-2 ${
+                                          isDisabled ? 'text-gray-400' : 'text-green-500'
+                                        }`} />
+                                        <span className={`text-sm font-medium ${
+                                          isDisabled ? 'text-gray-500' : 'text-gray-900'
+                                        }`}>
                                           {collection.name}
                                         </span>
                                       </div>
@@ -679,7 +813,8 @@ function BackUp({ serverUrl }) {
                         </div>
                       )}
                     </div>
-                  ))}
+                  );
+                  })}
                 </div>
               )}
             </div>
