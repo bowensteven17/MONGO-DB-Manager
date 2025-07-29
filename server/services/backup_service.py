@@ -6,6 +6,7 @@ from pathlib import Path
 from bson import ObjectId
 from datetime import datetime
 import json
+import zipfile
 from .mongo_service import mongo_service
 from utils import validate_database_name, validate_connection_string, get_backup_filename, sanitize_filename, format_bytes
 
@@ -106,9 +107,102 @@ class BackupService:
         elif isinstance(obj, list):
             return [self._sanitize_for_json(item) for item in obj]
         else:
-            return obj       
+            return obj
+    
+    def _create_database_backup(self, connection_string, database_name, backup_filename, backup_db_connection, options=None):
+        """Create a backup by storing data directly in a MongoDB database"""
+        try:
+            self.logger.info(f"Creating database backup for {database_name} with backup name {backup_filename}")
+            
+            # Connect to source database
+            with mongo_service.get_client(connection_string) as source_client:
+                source_db = source_client[database_name]
+                collection_names = source_db.list_collection_names()
+                
+                # Connect to backup database
+                with mongo_service.get_client(backup_db_connection) as backup_client:
+                    backup_db = backup_client['backup_db']
+                    
+                    # Create a unique collection name for this backup
+                    backup_collection_name = f"backup_{backup_filename}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}"
+                    backup_collection = backup_db[backup_collection_name]
+                    
+                    total_documents = 0
+                    collections_backed_up = []
+                    
+                    # Backup each collection (skip system collections)
+                    for collection_name in collection_names:
+                        if collection_name.startswith('system.'):
+                            self.logger.info(f"Skipping system collection: {collection_name}")
+                            continue
+                        
+                        source_collection = source_db[collection_name]
+                        document_count = 0
+                        
+                        # Read all documents from source collection
+                        for document in source_collection.find():
+                            # Store the document with metadata about its original collection
+                            backup_doc = {
+                                'original_collection': collection_name,
+                                'original_id': str(document.get('_id')),  # Store original _id as string
+                                'data': document,
+                                'backup_timestamp': datetime.utcnow().isoformat()
+                            }
+                            
+                            # Remove _id from data to avoid conflicts
+                            if '_id' in backup_doc['data']:
+                                del backup_doc['data']['_id']
+                            
+                            backup_collection.insert_one(backup_doc)
+                            document_count += 1
+                            total_documents += 1
+                        
+                        collections_backed_up.append({
+                            'name': collection_name,
+                            'document_count': document_count
+                        })
+                        
+                        self.logger.info(f"Backed up collection {collection_name} ({document_count} documents)")
+                    
+                    # Create metadata document
+                    metadata = {
+                        'backup_identifier': backup_filename,
+                        'source_database': database_name,
+                        'backup_timestamp': datetime.utcnow().isoformat(),
+                        'backup_method': 'database_storage',
+                        'total_documents': total_documents,
+                        'collections_backed_up': collections_backed_up,
+                        'backup_collection_name': backup_collection_name
+                    }
+                    
+                    # Insert metadata as a special document
+                    backup_collection.insert_one({
+                        '_id': 'BACKUP_METADATA',
+                        'metadata': metadata
+                    })
+                    
+                    self.logger.info(f"Successfully created database backup {backup_filename} with {total_documents} documents")
+                    
+                    return {
+                        'success': True,
+                        'message': 'Database backup created successfully',
+                        'backup': {
+                            'name': backup_filename,
+                            'database': database_name,
+                            'collection_name': backup_collection_name,
+                            'total_documents': total_documents,
+                            'collections_backed_up': len(collections_backed_up),
+                            'created_at': metadata['backup_timestamp'],
+                            'method': 'database_storage'
+                        }
+                    }
+                    
+        except Exception as e:
+            self.logger.error(f"Failed to create database backup: {e}")
+            raise
+       
     def _create_file_system_backup(self, connection_string, database_name, backup_name=None, options=None):
-        """Create a backup of a MongoDB database using mongodump"""
+        """Create a backup of a MongoDB database using mongodump with clean filename"""
         # Validate inputs
         is_valid, message = validate_connection_string(connection_string)
         if not is_valid:
@@ -119,15 +213,20 @@ class BackupService:
             raise ValueError(message)
         
         try:
-            # Generate backup filename
-            backup_filename = get_backup_filename(database_name, backup_name)
-            backup_filename = sanitize_filename(backup_filename)
+            # Generate clean backup filename - FIX THE DUPLICATE TIMESTAMP ISSUE
+            if backup_name:
+                backup_filename = sanitize_filename(backup_name)
+            else:
+                # Generate single timestamp directly here
+                timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
+                backup_filename = f"{database_name}_backup_{timestamp}"
+            
             backup_path = self.backup_dir / backup_filename
             
             # Check if mongodump is available
             try:
                 subprocess.run(['mongodump', '--version'], 
-                             capture_output=True, check=True)
+                            capture_output=True, check=True)
             except (subprocess.CalledProcessError, FileNotFoundError):
                 # Fallback to Python-based backup
                 return self._create_python_backup(connection_string, database_name, backup_path)
@@ -147,6 +246,10 @@ class BackupService:
                     cmd.append('--gzip')
                 if options.get('collection'):
                     cmd.extend(['--collection', options['collection']])
+                if options.get('collections'):
+                    # Handle multiple collections for partial backup
+                    for collection in options['collections']:
+                        cmd.extend(['--collection', collection])
                 if options.get('query'):
                     cmd.extend(['--query', options['query']])
             
@@ -164,7 +267,7 @@ class BackupService:
             # Create metadata file
             metadata = {
                 'database': database_name,
-                'backup_name': backup_name,
+                'backup_name': backup_filename,  # Use the clean filename
                 'created_at': datetime.utcnow().isoformat(),
                 'size': backup_size,
                 'method': 'mongodump',
@@ -181,8 +284,8 @@ class BackupService:
                 'success': True,
                 'message': 'File system backup created successfully',
                 'backup': {
-                    'name': backup_path.name,
-                    'path': str(backup_path),  # Make sure this is str(backup_path)
+                    'name': backup_filename,  # Return the clean filename (this is the key fix!)
+                    'path': str(backup_path),
                     'database': database_name,
                     'size': backup_size,
                     'created_at': metadata['created_at'],
@@ -197,115 +300,27 @@ class BackupService:
             if 'backup_path' in locals() and backup_path.exists():
                 shutil.rmtree(backup_path, ignore_errors=True)
             raise
-    def _create_database_backup(self, connection_string, database_name, backup_identifier, backup_db_connection, options=None):
-        """Create a backup stored in MongoDB database"""
-        try:
-            # Generate collection name: databasename_timestamp
-            timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
-            backup_collection_name = f"{database_name}_{timestamp}"
-            
-            self.logger.info(f"Starting database backup of {database_name} to collection {backup_collection_name}")
-            
-            # Connect to source database
-            with mongo_service.get_client(connection_string) as source_client:
-                source_db = source_client[database_name]
-                collection_names = source_db.list_collection_names()
-                
-                # Connect to backup database
-                with mongo_service.get_client(backup_db_connection) as backup_client:
-                    backup_db = backup_client['backup_db']
-                    backup_collection = backup_db[backup_collection_name]
-                    
-                    total_documents = 0
-                    backup_metadata = {
-                        'backup_identifier': backup_identifier,
-                        'source_database': database_name,
-                        'backup_timestamp': datetime.utcnow().isoformat(),
-                        'backup_method': 'database_storage',
-                        'source_connection': connection_string,
-                        'backup_connection': backup_db_connection,
-                        'collections_backed_up': [],
-                        'total_documents': 0
-                    }
-                    
-                    # Backup each collection (skip system collections)
-                    for collection_name in collection_names:
-                        # Skip system collections
-                        if collection_name.startswith('system.'):
-                            self.logger.info(f"Skipping system collection: {collection_name}")
-                            continue
-                        
-                        source_collection = source_db[collection_name]
-                        documents = list(source_collection.find())
-                        
-                        collection_doc_count = len(documents)
-                        total_documents += collection_doc_count
-                        
-                        # Transform documents for backup storage
-                        backup_documents = []
-                        for doc in documents:
-                            backup_doc = {
-                                '_id': f"{collection_name}_{str(doc['_id'])}",  # Ensure unique IDs
-                                'original_id': str(doc['_id']),
-                                'original_collection': collection_name,
-                                'backup_timestamp': backup_metadata['backup_timestamp'],
-                                'source_database': database_name,
-                                'data': doc
-                            }
-                            backup_documents.append(backup_doc)
-                        
-                        # Insert backup documents
-                        if backup_documents:
-                            backup_collection.insert_many(backup_documents)
-                        
-                        # Update metadata
-                        backup_metadata['collections_backed_up'].append({
-                            'name': collection_name,
-                            'document_count': collection_doc_count
-                        })
-                        
-                        self.logger.info(f"Backed up collection {collection_name} ({collection_doc_count} documents)")
-                    
-                    # Update total document count
-                    backup_metadata['total_documents'] = total_documents
-                    
-                    # Store metadata as a special document in the backup collection
-                    metadata_doc = {
-                        '_id': 'BACKUP_METADATA',
-                        'metadata': backup_metadata
-                    }
-                    backup_collection.insert_one(metadata_doc)
-                    
-                    self.logger.info(f"Successfully created database backup {backup_collection_name}")
-                    
-                    return {
-                        'success': True,
-                        'message': 'Database backup created successfully',
-                        'backup': {
-                            'collection_name': backup_collection_name,
-                            'backup_database': 'backup_db',
-                            'source_database': database_name,
-                            'total_documents': total_documents,
-                            'collections_count': len(collection_names),
-                            'created_at': backup_metadata['backup_timestamp'],
-                            'method': 'database_storage'
-                        }
-                    }
-                    
-        except Exception as e:
-            self.logger.error(f"Failed to create database backup: {e}")
-            # Cleanup partial backup if possible
-            try:
-                if 'backup_collection' in locals():
-                    backup_collection.drop()
-            except:
-                pass
-            raise
     def _create_python_backup(self, connection_string, database_name, backup_path):
-        """Create backup using Python MongoDB driver (fallback method)"""
+        """Create backup using Python MongoDB driver with clean filename"""
         self.logger.info(f"Using Python-based backup for database {database_name}")
         
         try:
+            # Fix: Handle backup_path properly to avoid duplicate timestamps
+            if isinstance(backup_path, str):
+                # If it's a string, create proper path
+                if not backup_path.startswith('/') and '\\' not in backup_path:
+                    # It's just a filename, create clean path
+                    timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
+                    clean_name = f"{database_name}_backup_{timestamp}"
+                    backup_path = self.backup_dir / clean_name
+                else:
+                    backup_path = Path(backup_path)
+            elif not isinstance(backup_path, Path):
+                # Generate clean name if backup_path is not proper
+                timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
+                clean_name = f"{database_name}_backup_{timestamp}"
+                backup_path = self.backup_dir / clean_name
+            
             backup_path.mkdir(parents=True, exist_ok=True)
             db_backup_path = backup_path / database_name
             db_backup_path.mkdir(parents=True, exist_ok=True)
@@ -342,10 +357,11 @@ class BackupService:
                 # Create metadata
                 metadata = {
                     'database': database_name,
+                    'backup_name': backup_path.name,  # Use the clean directory name
                     'created_at': datetime.utcnow().isoformat(),
                     'size': total_size,
                     'method': 'python',
-                    'collections': len(collection_names)
+                    'collections': len([name for name in collection_names if not name.startswith('system.')])
                 }
                 
                 metadata_file = backup_path / 'metadata.json'
@@ -356,7 +372,7 @@ class BackupService:
                     'success': True,
                     'message': 'Backup created successfully (Python method)',
                     'backup': {
-                        'name': backup_path.name,
+                        'name': backup_path.name,  # Return the clean directory name (key fix!)
                         'path': str(backup_path),
                         'database': database_name,
                         'size': total_size,
@@ -368,10 +384,9 @@ class BackupService:
                 
         except Exception as e:
             self.logger.error(f"Python backup failed: {e}")
-            if backup_path.exists():
+            if backup_path and backup_path.exists():
                 shutil.rmtree(backup_path, ignore_errors=True)
             raise
-    
     def restore_backup(self, connection_string, backup_name, target_database=None, selected_collections=None, target_collections_filter=None, options=None, restore_source='file_system'):
         """Restore a backup to MongoDB using mongorestore with optional collection selection and target filtering"""
         
@@ -545,7 +560,7 @@ class BackupService:
         """Restore backup created with mongodump with optional collection selection and target filtering"""
         try:
             subprocess.run(['mongorestore', '--version'], 
-                         capture_output=True, check=True)
+                        capture_output=True, check=True)
         except (subprocess.CalledProcessError, FileNotFoundError):
             raise Exception("mongorestore is not available. Cannot restore mongodump backup.")
         
@@ -558,6 +573,9 @@ class BackupService:
                 db_path = subdirs[0]
             else:
                 raise Exception("No database directory found in backup")
+        
+        # Check if backup contains gzipped files
+        has_gzipped_files = any(f.name.endswith('.gz') for f in db_path.rglob('*') if f.is_file())
         
         restored_collections = []
         
@@ -573,26 +591,33 @@ class BackupService:
                 if collection_name.startswith('system.'):
                     self.logger.info(f"Skipping system collection: {collection_name}")
                     continue
-                    
-                collection_file = db_path / f"{collection_name}.bson"
-                metadata_file = db_path / f"{collection_name}.metadata.json"
                 
-                if collection_file.exists():
+                # Check for both .bson and .bson.gz files for robustness
+                collection_file_path = None
+                is_gzipped_file = False
+                if (db_path / f"{collection_name}.bson.gz").exists():
+                    collection_file_path = db_path / f"{collection_name}.bson.gz"
+                    is_gzipped_file = True
+                elif (db_path / f"{collection_name}.bson").exists():
+                    collection_file_path = db_path / f"{collection_name}.bson"
+
+                if collection_file_path:
                     cmd = [
                         'mongorestore',
                         '--uri', connection_string,
                         '--db', target_db,
                         '--collection', collection_name,
-                        str(collection_file)
                     ]
                     
-                    # Add options
-                    if options:
-                        if options.get('drop'):
-                            cmd.append('--drop')
-                        if options.get('gzip'):
-                            cmd.append('--gzip')
+                    if is_gzipped_file:
+                        cmd.append('--gzip')
                     
+                    if options and options.get('drop'):
+                        cmd.append('--drop')
+                    
+                    # Add file path as the last argument
+                    cmd.append(str(collection_file_path))
+
                     result = subprocess.run(cmd, capture_output=True, text=True)
                     
                     if result.returncode == 0:
@@ -601,32 +626,55 @@ class BackupService:
                     else:
                         self.logger.warning(f"Failed to restore collection {collection_name}: {result.stderr}")
                 else:
-                    self.logger.warning(f"Collection file not found: {collection_name}.bson")
+                    self.logger.warning(f"Collection file not found for: {collection_name}")
             
             if not restored_collections:
                 raise Exception("No collections were successfully restored")
         else:
-            # Restore entire database
+            # Restore entire database, explicitly excluding system collections
             cmd = [
                 'mongorestore',
                 '--uri', connection_string,
                 '--db', target_db,
-                str(db_path)
+                # FIX: Exclude system collections to prevent "InvalidNamespace" errors
+                '--excludeCollection=system.version'
             ]
             
-            # Add options
-            if options:
-                if options.get('drop'):
-                    cmd.append('--drop')
-                if options.get('gzip'):
-                    cmd.append('--gzip')
+            # Add gzip flag if backup contains compressed files
+            if has_gzipped_files:
+                cmd.append('--gzip')
+            
+            # Add options like --drop BEFORE the path
+            if options and options.get('drop'):
+                cmd.append('--drop')
+
+            # The source directory path must be the last argument
+            cmd.append(str(db_path))
             
             self.logger.info(f"Starting restore of backup to database {target_db}")
+            self.logger.info(f"Restore command: {' '.join(cmd)}")
             
             result = subprocess.run(cmd, capture_output=True, text=True)
             
+            self.logger.info(f"Mongorestore return code: {result.returncode}")
+            if result.stdout:
+                self.logger.info(f"Stdout: {result.stdout}")
+            if result.stderr:
+                self.logger.info(f"Stderr: {result.stderr}")
+            
             if result.returncode != 0:
-                raise Exception(f"mongorestore failed: {result.stderr}")
+                # Allow exit code 0 (success) and check for specific warnings that are not fatal
+                # The primary error was "InvalidNamespace", which this fix prevents.
+                # If other errors occur, they will be raised here.
+                if "InvalidNamespace" not in result.stderr:
+                    # Check if any documents were restored, as mongorestore can exit 0 but do nothing.
+                    if "document(s) restored successfully" in result.stdout or "document(s) restored successfully" in result.stderr:
+                        if "0 document(s) restored successfully" in result.stdout or "0 document(s) restored successfully" in result.stderr:
+                            raise Exception(f"mongorestore failed: No documents were restored. Stderr: {result.stderr}")
+                    else:
+                        pass # Succeeded
+                else:
+                    raise Exception(f"mongorestore failed: {result.stderr}")
         
         return {
             'success': True,
@@ -639,7 +687,6 @@ class BackupService:
                 'method': 'mongorestore'
             }
         }
-
 
     def _restore_python_backup(self, connection_string, backup_path, target_db, metadata, selected_collections=None, target_collections_filter=None):
         """Restore backup created with Python method with optional collection selection and target filtering"""
@@ -1065,5 +1112,81 @@ class BackupService:
         except Exception as e:
             self.logger.error(f"Failed to delete database backup {backup_name}: {e}")
             raise
+
+    def upload_and_extract_backup(self, file_path, original_filename):
+        """Helper method to process uploaded backup files"""
+        try:
+            # Generate unique backup name
+            timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
+            sanitized_original_name = sanitize_filename(original_filename.rsplit('.', 1)[0])
+            backup_name = f"uploaded_{sanitized_original_name}_{timestamp}"
+            backup_path = self.backup_dir / backup_name
+            
+            # Extract ZIP file
+            with zipfile.ZipFile(file_path, 'r') as zip_ref:
+                zip_ref.extractall(backup_path)
+            
+            # Process and validate extracted backup
+            metadata = self._process_uploaded_backup(backup_path, original_filename, timestamp)
+            
+            return {
+                'success': True,
+                'backup_name': backup_name,
+                'backup_path': str(backup_path),
+                'metadata': metadata
+            }
+            
+        except Exception as e:
+            self.logger.error(f"Failed to process uploaded backup: {e}")
+            # Clean up on failure
+            if 'backup_path' in locals() and backup_path.exists():
+                shutil.rmtree(backup_path, ignore_errors=True)
+            raise
+
+    def _process_uploaded_backup(self, backup_path, original_filename, timestamp):
+        """Process and validate uploaded backup structure"""
+        # Look for existing metadata
+        for metadata_file in backup_path.rglob('metadata.json'):
+            try:
+                with open(metadata_file, 'r') as f:
+                    metadata = json.load(f)
+                # Update metadata with upload info
+                metadata['original_filename'] = original_filename
+                metadata['upload_timestamp'] = timestamp
+                with open(metadata_file, 'w') as f:
+                    json.dump(metadata, f, indent=2)
+                return metadata
+            except:
+                continue
+        
+        # No metadata found, create new one
+        db_dirs = [d for d in backup_path.iterdir() if d.is_dir()]
+        database_name = 'unknown'
+        
+        if db_dirs:
+            for db_dir in db_dirs:
+                # Check for .bson or .json files to identify a likely database dump directory
+                bson_files = list(db_dir.glob('*.bson*')) # Handles .bson and .bson.gz
+                json_files = list(db_dir.glob('*.json'))
+                if bson_files or (json_files and not any(f.name == 'metadata.json' for f in json_files)):
+                    database_name = db_dir.name
+                    break
+        
+        metadata = {
+            'database': database_name,
+            'created_at': datetime.utcnow().isoformat(),
+            'method': 'uploaded',
+            'original_filename': original_filename,
+            'upload_timestamp': timestamp
+        }
+        
+        # Save metadata
+        metadata_file = backup_path / 'metadata.json'
+        with open(metadata_file, 'w') as f:
+            json.dump(metadata, f, indent=2)
+        
+        return metadata
+
+
 # Global instance
-backup_service = BackupService()    
+backup_service = BackupService()

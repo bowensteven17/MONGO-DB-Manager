@@ -43,7 +43,7 @@ def create_app():
     app.register_blueprint(database_bp, url_prefix='/api/database')
     app.register_blueprint(collection_bp, url_prefix='/api/collection')
     app.register_blueprint(backup_bp, url_prefix='/api/backup')
-    
+    app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100MB max file size
     # Health check endpoint
     @app.route('/health')
     def health_check():
