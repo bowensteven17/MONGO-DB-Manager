@@ -12,6 +12,8 @@
 # backups
 /server/backups/
 
+#temp
+/server/temp/
 # logs
 /server/logs/
 # testing

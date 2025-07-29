@@ -1,5 +1,6 @@
 // src/components/backup/BackupManager.js
 import { useState, useEffect } from 'react';
+import CreateBackupModal from "./CreateBackupModal"
 import {
   ArchiveIcon,
   UploadIcon,
@@ -17,12 +18,9 @@ function BackupManager() {
   const [databases, setDatabases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [connectionString] = useState("mongodb://localhost:27017");
-  
+  const [backupSources, setBackupSources] = useState({});
   // Modal states
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showRestoreModal, setShowRestoreModal] = useState(false);
-  const [selectedBackup, setSelectedBackup] = useState(null);
-  const [selectedDatabase, setSelectedDatabase] = useState('');
 
   useEffect(() => {
     fetchBackups();
@@ -32,13 +30,54 @@ function BackupManager() {
   const fetchBackups = async () => {
     try {
       setLoading(true);
-      const res = await fetch('http://localhost:5000/api/backup/list');
-      if (res.ok) {
-        const data = await res.json();
-        if (data.success && data.backups) {
-          setBackups(data.backups);
+      
+      // Fetch file system backups
+      const fileSystemRes = await fetch('http://localhost:5000/api/backup/list');
+      let allBackups = [];
+      let backupSources = {}; // Track where each backup is stored
+      
+      if (fileSystemRes.ok) {
+        const fileSystemData = await fileSystemRes.json();
+        if (fileSystemData.success && fileSystemData.backups) {
+          // Mark these as file system backups
+          fileSystemData.backups.forEach(backup => {
+            backupSources[backup.name] = { file_system: true, database: false };
+          });
+          allBackups = [...fileSystemData.backups];
         }
       }
+      
+      // Fetch database backups
+      try {
+        const databaseRes = await fetch('http://localhost:5000/api/backup/list-database');
+        if (databaseRes.ok) {
+          const databaseData = await databaseRes.json();
+          if (databaseData.success && databaseData.backups) {
+            // Mark these as database backups and merge with file system backups
+            databaseData.backups.forEach(dbBackup => {
+              const existingIndex = allBackups.findIndex(b => b.name === dbBackup.name);
+              if (existingIndex >= 0) {
+                // Backup exists in both locations
+                backupSources[dbBackup.name] = { file_system: true, database: true };
+              } else {
+                // Database-only backup
+                backupSources[dbBackup.name] = { file_system: false, database: true };
+                allBackups.push(dbBackup);
+              }
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch database backups:', error);
+      }
+      
+      // Sort by creation date (newest first)
+      allBackups.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      
+      setBackups(allBackups);
+      // Store backup sources info for displaying badges
+      setBackupSources(backupSources); // Temporary storage, you could use state instead
+      
     } catch (error) {
       console.error('Failed to fetch backups:', error);
     } finally {
@@ -65,18 +104,31 @@ function BackupManager() {
     }
   };
 
-  const handleCreateBackup = async (databaseName, backupName) => {
+  const handleCreateBackup = async (databaseName, backupName, destinations) => {
     try {
+      const requestBody = {
+        connection_string: connectionString,
+        database_name: databaseName,
+        backup_name: backupName,
+        options: {
+          destinations: {
+            toFileSystem: destinations.toFileSystem,
+            toDatabase: destinations.toDatabase
+          }
+        }
+      };
+  
+      // Add backup database connection if provided
+      if (destinations.backupDbConnection) {
+        requestBody.backup_db_connection = destinations.backupDbConnection;
+      }
+  
       const res = await fetch('http://localhost:5000/api/backup/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          connection_string: connectionString,
-          database_name: databaseName,
-          backup_name: backupName
-        })
+        body: JSON.stringify(requestBody)
       });
-
+  
       if (res.ok) {
         const result = await res.json();
         alert(`Backup created successfully: ${result.backup.name}`);
@@ -91,52 +143,82 @@ function BackupManager() {
     }
   };
 
-  const handleRestoreBackup = async (backupName, targetDatabase) => {
-    try {
-      const res = await fetch('http://localhost:5000/api/backup/restore', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          connection_string: connectionString,
-          backup_name: backupName,
-          target_database: targetDatabase,
-          confirm: true
-        })
-      });
-
-      if (res.ok) {
-        const result = await res.json();
-        alert(`Backup restored successfully to: ${result.restore.target_database}`);
-        setShowRestoreModal(false);
-        setSelectedBackup(null);
-      } else {
-        const error = await res.json();
-        alert(`Restore failed: ${error.message}`);
-      }
-    } catch (error) {
-      alert(`Restore failed: ${error.message}`);
-    }
-  };
 
   const handleDeleteBackup = async (backupName) => {
-    if (window.confirm(`Are you sure you want to delete backup "${backupName}"?`)) {
+    // Get backup sources to determine what to delete
+    const sources = backupSources[backupName] || {};
+    const hasFileSystem = sources.file_system;
+    const hasDatabase = sources.database;
+    
+    let deleteMessage = `Are you sure you want to delete backup "${backupName}"?`;
+    
+    if (hasFileSystem && hasDatabase) {
+      deleteMessage = `Are you sure you want to delete backup "${backupName}" from both File System and Database storage?`;
+    } else if (hasFileSystem) {
+      deleteMessage = `Are you sure you want to delete backup "${backupName}" from File System storage?`;
+    } else if (hasDatabase) {
+      deleteMessage = `Are you sure you want to delete backup "${backupName}" from Database storage?`;
+    }
+  
+    if (window.confirm(deleteMessage)) {
       try {
-        const res = await fetch('http://localhost:5000/api/backup/delete', {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            backup_name: backupName,
-            confirm: true
-          })
-        });
-
-        if (res.ok) {
-          alert('Backup deleted successfully');
+        const deletePromises = [];
+        
+        // Delete from file system if it exists there
+        if (hasFileSystem) {
+          const fileSystemDelete = fetch('http://localhost:5000/api/backup/delete', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              backup_name: backupName,
+              source: 'file_system',
+              confirm: true
+            })
+          });
+          deletePromises.push(fileSystemDelete);
+        }
+        
+        // Delete from database if it exists there
+        if (hasDatabase) {
+          const databaseDelete = fetch('http://localhost:5000/api/backup/delete-database', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              backup_name: backupName,
+              source: 'database',
+              confirm: true
+            })
+          });
+          deletePromises.push(databaseDelete);
+        }
+        
+        // Wait for all deletions to complete
+        const results = await Promise.all(deletePromises);
+        
+        // Check if all deletions were successful
+        let allSuccessful = true;
+        let errorMessages = [];
+        
+        for (let i = 0; i < results.length; i++) {
+          const res = results[i];
+          if (res.ok) {
+            const result = await res.json();
+            console.log('Delete result:', result);
+          } else {
+            allSuccessful = false;
+            const error = await res.json();
+            errorMessages.push(error.message);
+          }
+        }
+        
+        if (allSuccessful) {
+          alert('Backup deleted successfully from all locations');
           fetchBackups(); // Refresh backup list
         } else {
-          const error = await res.json();
-          alert(`Delete failed: ${error.message}`);
+          alert(`Delete partially failed: ${errorMessages.join(', ')}`);
+          fetchBackups(); // Still refresh to see current state
         }
+        
       } catch (error) {
         alert(`Delete failed: ${error.message}`);
       }
@@ -154,6 +236,10 @@ function BackupManager() {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
+
+  
+
+
 
   return (
     <div className="flex-1 bg-gray-50 p-6">
@@ -179,6 +265,7 @@ function BackupManager() {
               <RefreshIcon className="h-5 w-5 mr-2" />
               Refresh
             </button>
+      
           </div>
         </div>
       </div>
@@ -269,6 +356,19 @@ function BackupManager() {
                   <tr key={backup.name} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="font-medium text-gray-900">{backup.name}</div>
+                      {/* Storage location badges */}
+                      <div className="flex items-center space-x-1 mt-1">
+                        {backupSources[backup.name]?.file_system && (
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            File System
+                          </span>
+                        )}
+                        {backupSources[backup.name]?.database && (
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Database
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
@@ -285,23 +385,15 @@ function BackupManager() {
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         backup.method === 'mongodump' 
                           ? 'bg-green-100 text-green-800' 
+                          : backup.method === 'database_storage'
+                          ? 'bg-purple-100 text-purple-800'
                           : 'bg-yellow-100 text-yellow-800'
                       }`}>
                         {backup.method}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => {
-                            setSelectedBackup(backup);
-                            setShowRestoreModal(true);
-                          }}
-                          className="text-green-600 hover:text-green-900"
-                          title="Restore backup"
-                        >
-                          <UploadIcon className="h-5 w-5" />
-                        </button>
+                    <div className="flex space-x-2">
                         <a
                           href={`http://localhost:5000/api/backup/download/${backup.name}`}
                           className="text-blue-600 hover:text-blue-900"
@@ -334,151 +426,7 @@ function BackupManager() {
           onCreateBackup={handleCreateBackup}
         />
       )}
-
-      {/* Restore Backup Modal */}
-      {showRestoreModal && selectedBackup && (
-        <RestoreBackupModal
-          backup={selectedBackup}
-          databases={databases}
-          onClose={() => {
-            setShowRestoreModal(false);
-            setSelectedBackup(null);
-          }}
-          onRestoreBackup={handleRestoreBackup}
-        />
-      )}
     </div>
   );
 }
-
-// Create Backup Modal Component
-function CreateBackupModal({ databases, onClose, onCreateBackup }) {
-  const [selectedDb, setSelectedDb] = useState('');
-  const [backupName, setBackupName] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (selectedDb) {
-      onCreateBackup(selectedDb, backupName || undefined);
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Create New Backup</h3>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Select Database
-            </label>
-            <select
-              value={selectedDb}
-              onChange={(e) => setSelectedDb(e.target.value)}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            >
-              <option value="">Choose a database...</option>
-              {databases.map((db) => (
-                <option key={db.name} value={db.name}>
-                  {db.name} ({db.collections} collections)
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Backup Name (optional)
-            </label>
-            <input
-              type="text"
-              value={backupName}
-              onChange={(e) => setBackupName(e.target.value)}
-              placeholder="Leave empty for auto-generated name"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex justify-end space-x-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Create Backup
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-// Restore Backup Modal Component
-function RestoreBackupModal({ backup, databases, onClose, onRestoreBackup }) {
-  const [targetDb, setTargetDb] = useState(backup.database);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (window.confirm(`Are you sure you want to restore "${backup.name}" to "${targetDb}"? This will overwrite existing data.`)) {
-      onRestoreBackup(backup.name, targetDb);
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Restore Backup</h3>
-        <div className="mb-4 p-3 bg-gray-100 rounded-md">
-          <p className="text-sm text-gray-600">Backup: <strong>{backup.name}</strong></p>
-          <p className="text-sm text-gray-600">Original Database: <strong>{backup.database}</strong></p>
-          <p className="text-sm text-gray-600">Size: <strong>{backup.size_formatted}</strong></p>
-        </div>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Target Database
-            </label>
-            <select
-              value={targetDb}
-              onChange={(e) => setTargetDb(e.target.value)}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            >
-              {databases.map((db) => (
-                <option key={db.name} value={db.name}>
-                  {db.name}
-                </option>
-              ))}
-            </select>
-            <p className="text-xs text-red-600 mt-1">
-              Warning: This will overwrite existing data in the target database!
-            </p>
-          </div>
-          <div className="flex justify-end space-x-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
-            >
-              Restore Backup
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
-
 export default BackupManager;
