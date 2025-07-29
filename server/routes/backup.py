@@ -565,6 +565,62 @@ def upload_backup():
                 with open(metadata_file, 'w') as f:
                     json.dump(metadata, f, indent=2)
             
+            # Extract collection information from backup
+            collections_info = []
+            db_name = metadata.get('database', 'unknown')
+            
+            # Look for database directory in backup
+            for db_dir in backup_path.iterdir():
+                if db_dir.is_dir():
+                    # Check for BSON files (mongodump format) - including compressed
+                    bson_files = list(db_dir.glob('*.bson')) + list(db_dir.glob('*.bson.gz'))
+                    if bson_files:
+                        for bson_file in bson_files:
+                            # Handle both .bson and .bson.gz files
+                            if bson_file.name.endswith('.bson.gz'):
+                                collection_name = bson_file.name.replace('.bson.gz', '')
+                            else:
+                                collection_name = bson_file.stem  # Remove .bson
+                            collections_info.append(collection_name)
+                        break
+                    
+                    # Check for JSON files (custom format) - including compressed
+                    json_files = list(db_dir.glob('*.json')) + list(db_dir.glob('*.json.gz'))
+                    if json_files:
+                        for json_file in json_files:
+                            if 'metadata.json' not in json_file.name:  # Skip metadata files
+                                # Handle both .json and .json.gz files
+                                if json_file.name.endswith('.json.gz'):
+                                    collection_name = json_file.name.replace('.json.gz', '')
+                                else:
+                                    collection_name = json_file.stem  # Remove .json
+                                collections_info.append(collection_name)
+                        break
+            
+            # If no collections found in subdirectories, check root level
+            if not collections_info:
+                # Check root level for BSON files - including compressed
+                bson_files = list(backup_path.glob('*.bson')) + list(backup_path.glob('*.bson.gz'))
+                for bson_file in bson_files:
+                    if bson_file.name.endswith('.bson.gz'):
+                        collection_name = bson_file.name.replace('.bson.gz', '')
+                    else:
+                        collection_name = bson_file.stem  # Remove .bson
+                    collections_info.append(collection_name)
+                
+                # Check root level for JSON files - including compressed
+                if not collections_info:
+                    json_files = list(backup_path.glob('*.json')) + list(backup_path.glob('*.json.gz'))
+                    for json_file in json_files:
+                        if 'metadata.json' not in json_file.name:
+                            if json_file.name.endswith('.json.gz'):
+                                collection_name = json_file.name.replace('.json.gz', '')
+                            else:
+                                collection_name = json_file.stem  # Remove .json
+                            collections_info.append(collection_name)
+            
+            logger.info(f"Found collections: {collections_info}")
+            
             # Clean up uploaded ZIP file
             file_path.unlink()
             
@@ -579,7 +635,8 @@ def upload_backup():
                     'size': sum(f.stat().st_size for f in backup_path.rglob('*') if f.is_file()),
                     'files_count': len([f for f in backup_path.rglob('*') if f.is_file()]),
                     'created_at': metadata.get('created_at'),
-                    'upload_timestamp': timestamp
+                    'upload_timestamp': timestamp,
+                    'collections': collections_info
                 }
             }), 200
             

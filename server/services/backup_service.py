@@ -236,22 +236,29 @@ class BackupService:
                 'mongodump',
                 '--uri', connection_string,
                 '--db', database_name,
-                '--out', str(backup_path),
-                '--excludeCollection', 'system.*'  # Exclude system collections
+                '--out', str(backup_path)
             ]
             
             # Add additional options if provided
+            specific_collections_requested = False
             if options:
                 if options.get('gzip'):
                     cmd.append('--gzip')
                 if options.get('collection'):
                     cmd.extend(['--collection', options['collection']])
+                    specific_collections_requested = True
                 if options.get('collections'):
                     # Handle multiple collections for partial backup
                     for collection in options['collections']:
                         cmd.extend(['--collection', collection])
+                    specific_collections_requested = True
                 if options.get('query'):
                     cmd.extend(['--query', options['query']])
+            
+            # Only exclude system collections if no specific collections are requested
+            # mongodump doesn't allow --collection and --excludeCollection together
+            if not specific_collections_requested:
+                cmd.extend(['--excludeCollection', 'system.*'])
             
             self.logger.info(f"Starting backup of database {database_name}")
             

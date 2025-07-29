@@ -9,13 +9,32 @@
 /server/.env
 
 
-# backups
+# Directories that should not be tracked
 /server/backups/
-
-#temp
 /server/temp/
-# logs
 /server/logs/
+/server/uploads/
+
+# Alternative patterns to catch these directories anywhere in the project
+**/backups/
+**/temp/
+**/logs/
+**/uploads/
+
+# Backup file patterns
+*.bson
+*.bson.gz
+*.dump
+*.sql
+*.backup
+*_backup_*
+*backup*.zip
+*backup*.tar
+*backup*.gz
+
+# Log file patterns
+*.log
+logs.txt
 # testing
 /coverage
 

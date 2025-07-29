@@ -1,5 +1,5 @@
 // RestoreDatabase.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   DatabaseIcon, 
   ServerIcon, 
@@ -7,7 +7,8 @@ import {
   ExclamationIcon, 
   CheckCircleIcon,
   RefreshIcon,
-  InformationCircleIcon
+  InformationCircleIcon,
+  CheckIcon
 } from '@heroicons/react/outline';
 
 const RestoreDatabase = ({ 
@@ -17,10 +18,13 @@ const RestoreDatabase = ({
   setUploadedBackupInfo,
   onRestoreComplete 
 }) => {
-  const [createNewDatabase, setCreateNewDatabase] = useState(false);
+  const [availableDatabases, setAvailableDatabases] = useState([]);
   const [targetDatabase, setTargetDatabase] = useState('');
+  const [newDatabaseName, setNewDatabaseName] = useState('');
+  const [createNewDatabase, setCreateNewDatabase] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
   const [isUploadingFile, setIsUploadingFile] = useState(false);
+  const [isLoadingDatabases, setIsLoadingDatabases] = useState(false);
   const [restoreResult, setRestoreResult] = useState(null);
   const [error, setError] = useState('');
   const [uploadedBackupName, setUploadedBackupName] = useState('');
@@ -61,10 +65,10 @@ const RestoreDatabase = ({
         setUploadedBackupInfo(uploadResult.backup_info);
         setUploadedBackupName(uploadResult.backup_name);
         
-        // Set default target database name
-        if (!createNewDatabase && uploadResult.backup_info?.database) {
-          setTargetDatabase(uploadResult.backup_info.database);
-        }
+        // Reset database selection when new file is uploaded
+        setTargetDatabase('');
+        setNewDatabaseName('');
+        setCreateNewDatabase(false);
         
         // Reset previous results
         setRestoreResult(null);
@@ -108,6 +112,44 @@ const RestoreDatabase = ({
     }
   };
 
+  const fetchAvailableDatabases = async () => {
+    if (!connectionString.trim()) {
+      setError('Please provide a MongoDB connection string first');
+      return;
+    }
+
+    setIsLoadingDatabases(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/database/list', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ connection_string: connectionString }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch databases');
+      }
+
+      const data = await response.json();
+      
+      if (data.success && data.databases) {
+        setAvailableDatabases(data.databases);
+      } else {
+        throw new Error(data.message || 'Failed to fetch databases');
+      }
+    } catch (err) {
+      setError(err.message);
+      setAvailableDatabases([]);
+    } finally {
+      setIsLoadingDatabases(false);
+    }
+  };
+
   const handleRestore = async () => {
     if (!uploadedBackupInfo || !uploadedBackupName) {
       setError('Please upload a backup file first');
@@ -119,13 +161,13 @@ const RestoreDatabase = ({
       return;
     }
 
-    if (createNewDatabase && !targetDatabase.trim()) {
-      setError('Please provide a target database name');
+    if (createNewDatabase && !newDatabaseName.trim()) {
+      setError('Please provide a new database name');
       return;
     }
 
-    if (!createNewDatabase && !uploadedBackupInfo.database) {
-      setError('Cannot determine original database name from backup');
+    if (!createNewDatabase && !targetDatabase) {
+      setError('Please select a target database');
       return;
     }
 
@@ -140,11 +182,11 @@ const RestoreDatabase = ({
         confirm: true
       };
 
-      // Add target database if creating new or if specified
-      if (createNewDatabase && targetDatabase.trim()) {
-        restorePayload.target_database = targetDatabase.trim();
-      } else if (!createNewDatabase && uploadedBackupInfo.database) {
-        restorePayload.target_database = uploadedBackupInfo.database;
+      // Add target database
+      if (createNewDatabase) {
+        restorePayload.target_database = newDatabaseName.trim();
+      } else {
+        restorePayload.target_database = targetDatabase;
       }
 
       const response = await fetch('http://localhost:5000/api/backup/restore', {
@@ -197,27 +239,26 @@ const RestoreDatabase = ({
     return `${size.toFixed(1)} ${units[unitIndex]}`;
   };
 
-  const handleRestoreOptionChange = (newDatabase) => {
-    setCreateNewDatabase(newDatabase);
-    if (newDatabase) {
-      setTargetDatabase('');
-    } else if (uploadedBackupInfo?.database) {
-      setTargetDatabase(uploadedBackupInfo.database);
-    }
-    setError('');
-  };
-
   const handleReset = () => {
     setUploadedBackupInfo(null);
     setUploadedBackupName('');
     setTargetDatabase('');
+    setNewDatabaseName('');
     setCreateNewDatabase(false);
+    setAvailableDatabases([]);
     setError('');
     setRestoreResult(null);
     // Clear file input
     const fileInput = document.querySelector('input[type="file"]');
     if (fileInput) fileInput.value = '';
   };
+
+  // Auto-fetch databases when connection string changes
+  useEffect(() => {
+    if (connectionString.trim()) {
+      fetchAvailableDatabases();
+    }
+  }, [connectionString]);
 
   return (
     <div className="space-y-6">
@@ -388,74 +429,114 @@ const RestoreDatabase = ({
         </div>
       )}
 
-      {/* Restore Options */}
-      <div className="space-y-4">
-        <h4 className="text-sm font-medium text-gray-700">Restore Options</h4>
-        
-        <div className="space-y-3">
+      {/* Target Database Selection */}
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <h4 className="text-sm font-medium text-gray-700">Select Target Database</h4>
+          {availableDatabases.length > 0 && (
+            <span className="text-xs text-gray-500">
+              {availableDatabases.length} database(s) available
+            </span>
+          )}
+        </div>
+
+        {availableDatabases.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {availableDatabases.map((db) => (
+              <label
+                key={db.name}
+                className={`relative flex items-center p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 ${
+                  targetDatabase === db.name
+                    ? 'border-green-500 bg-green-50 shadow-sm'
+                    : 'border-gray-200 hover:border-gray-300 hover:shadow-sm'
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="targetDatabase"
+                  value={db.name}
+                  checked={targetDatabase === db.name}
+                  onChange={(e) => {
+                    setTargetDatabase(e.target.value);
+                    setCreateNewDatabase(false);
+                  }}
+                  className="sr-only"
+                />
+                <DatabaseIcon className="h-5 w-5 mr-3 text-gray-400 flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">{db.name}</p>
+                  <p className="text-xs text-gray-500">
+                    {db.collections || 0} collection{(db.collections || 0) !== 1 ? 's' : ''}
+                  </p>
+                </div>
+                {targetDatabase === db.name && (
+                  <CheckIcon className="h-5 w-5 text-green-600 absolute top-3 right-3" />
+                )}
+              </label>
+            ))}
+          </div>
+        ) : connectionString.trim() ? (
+          <div className="text-center py-8 border-2 border-dashed border-gray-300 rounded-lg">
+            <DatabaseIcon className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+            <p className="text-sm text-gray-500 mb-3">
+              {isLoadingDatabases ? 'Loading databases...' : 'No databases found or connection failed'}
+            </p>
+            <button
+              onClick={fetchAvailableDatabases}
+              disabled={isLoadingDatabases}
+              className="text-sm text-green-600 hover:text-green-800 disabled:text-gray-400 transition-colors"
+            >
+              {isLoadingDatabases ? 'Loading...' : 'Retry Connection'}
+            </button>
+          </div>
+        ) : (
+          <div className="text-center py-8 border-2 border-dashed border-gray-300 rounded-lg">
+            <DatabaseIcon className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+            <p className="text-sm text-gray-500">
+              Enter a connection string above to load available databases
+            </p>
+          </div>
+        )}
+
+        {/* Create New Database Option */}
+        <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
           <label className="flex items-start cursor-pointer">
             <input
               type="radio"
-              name="restoreOption"
-              checked={!createNewDatabase}
-              onChange={() => handleRestoreOptionChange(false)}
-              className="h-4 w-4 text-green-600 border-gray-300 focus:ring-green-500 mt-0.5"
-            />
-            <div className="ml-3">
-              <span className="text-sm font-medium text-gray-700">
-                Restore to Original Database
-              </span>
-              <p className="text-xs text-gray-500 mt-1">
-                {uploadedBackupInfo?.database ? 
-                  `Database: ${uploadedBackupInfo.database}` : 
-                  'Restore to the same database name as in the backup'
-                }
-              </p>
-            </div>
-          </label>
-          
-          <label className="flex items-start cursor-pointer">
-            <input
-              type="radio"
-              name="restoreOption"
+              name="databaseOption"
               checked={createNewDatabase}
-              onChange={() => handleRestoreOptionChange(true)}
+              onChange={() => {
+                setCreateNewDatabase(true);
+                setTargetDatabase('');
+              }}
               className="h-4 w-4 text-green-600 border-gray-300 focus:ring-green-500 mt-0.5"
             />
-            <div className="ml-3">
+            <div className="ml-3 flex-1">
               <span className="text-sm font-medium text-gray-700">
                 Create New Database
               </span>
               <p className="text-xs text-gray-500 mt-1">
                 Restore backup data to a new database with a custom name
               </p>
+              
+              {createNewDatabase && (
+                <div className="mt-3">
+                  <input
+                    type="text"
+                    value={newDatabaseName}
+                    onChange={(e) => setNewDatabaseName(e.target.value)}
+                    placeholder="Enter new database name"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+                  />
+                </div>
+              )}
             </div>
           </label>
         </div>
-
-        {/* Target Database Input */}
-        {createNewDatabase && (
-          <div className="mt-4 pl-7">
-            <label htmlFor="targetDatabase" className="block text-sm font-medium text-gray-700 mb-2">
-              New Database Name
-            </label>
-            <input
-              id="targetDatabase"
-              type="text"
-              value={targetDatabase}
-              onChange={(e) => setTargetDatabase(e.target.value)}
-              placeholder="Enter new database name"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Choose a unique name for the new database
-            </p>
-          </div>
-        )}
       </div>
 
       {/* Restore Preview */}
-      {uploadedBackupInfo && (
+      {uploadedBackupInfo && (targetDatabase || (createNewDatabase && newDatabaseName)) && (
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
           <h4 className="text-sm font-medium text-yellow-800 mb-2 flex items-center">
             <InformationCircleIcon className="h-4 w-4 mr-2" />
@@ -466,7 +547,7 @@ const RestoreDatabase = ({
               <strong>Source:</strong> {uploadedBackupInfo.database} ({uploadedBackupInfo.collections?.length || uploadedBackupInfo.files_count || 'Unknown'} collections)
             </p>
             <p>
-              <strong>Target:</strong> {createNewDatabase ? targetDatabase || 'New database name required' : uploadedBackupInfo.database}
+              <strong>Target:</strong> {createNewDatabase ? newDatabaseName : targetDatabase}
             </p>
             <p>
               <strong>Action:</strong> {createNewDatabase ? 'Create new database and restore data' : 'Replace existing database data'}
@@ -518,12 +599,10 @@ const RestoreDatabase = ({
       {/* Action Buttons */}
       <div className="flex justify-between items-center pt-4 border-t border-gray-200">
         <div className="text-xs text-gray-500">
-          {uploadedBackupInfo && (
+          {uploadedBackupInfo && (targetDatabase || (createNewDatabase && newDatabaseName)) && (
             <span>
               Ready to restore {uploadedBackupInfo.database} to {
-                createNewDatabase 
-                  ? (targetDatabase || 'new database') 
-                  : uploadedBackupInfo.database
+                createNewDatabase ? newDatabaseName : targetDatabase
               }
             </span>
           )}
@@ -549,7 +628,8 @@ const RestoreDatabase = ({
               !connectionString.trim() || 
               isRestoring || 
               isUploadingFile ||
-              (createNewDatabase && !targetDatabase.trim())
+              (createNewDatabase && !newDatabaseName.trim()) ||
+              (!createNewDatabase && !targetDatabase)
             }
             className="px-6 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center"
           >

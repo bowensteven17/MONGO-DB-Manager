@@ -36,6 +36,11 @@ function DatabaseCard({ database, serverUrl, onBack }) {
   const [showCopyModal, setShowCopyModal] = useState(false);
   const [collectionToCopy, setCollectionToCopy] = useState(null);
   const [allDatabases, setAllDatabases] = useState([]);
+  
+  // Delete collection state
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [collectionToDelete, setCollectionToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (database) {
@@ -170,10 +175,8 @@ function DatabaseCard({ database, serverUrl, onBack }) {
     fetchCollectionDetails(collection.name);
   };
 
-  const handleCopyCollection = async (collection) => {
+  const handleCopyCollection = (collection) => {
     setCollectionToCopy(collection);
-    // Refresh database list to ensure we have up-to-date data for the modal
-    await fetchAllDatabases();
     setShowCopyModal(true);
   };
 
@@ -189,6 +192,62 @@ function DatabaseCard({ database, serverUrl, onBack }) {
   const handleCloseCopyModal = () => {
     setShowCopyModal(false);
     setCollectionToCopy(null);
+  };
+
+  const handleDeleteCollection = (collection) => {
+    setCollectionToDelete(collection);
+    setShowDeleteConfirm(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!collectionToDelete) return;
+
+    setIsDeleting(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/collection/drop', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          connection_string: serverUrl,
+          database_name: database.name,
+          collection_names: [collectionToDelete.name],
+          confirm: true
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // If the deleted collection was selected, clear selection
+        if (selectedCollection && selectedCollection.name === collectionToDelete.name) {
+          setSelectedCollection(null);
+          setCollectionDetails(null);
+        }
+        
+        // Refresh the collections list
+        fetchCollections();
+        fetchDatabaseDetails();
+        
+        // Close the confirmation dialog
+        setShowDeleteConfirm(false);
+        setCollectionToDelete(null);
+      } else {
+        setError('Failed to delete collection: ' + (result.message || 'Unknown error'));
+      }
+    } catch (error) {
+      setError('Failed to delete collection: ' + error.message);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirm(false);
+    setCollectionToDelete(null);
   };
 
   const formatBytes = (bytes) => {
@@ -268,7 +327,7 @@ function DatabaseCard({ database, serverUrl, onBack }) {
       {/* Main Content */}
       <div className="p-6 space-y-6">
         {/* Database Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -315,19 +374,6 @@ function DatabaseCard({ database, serverUrl, onBack }) {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <KeyIcon className="h-6 w-6 text-orange-500" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Data Size</p>
-                <p className="text-lg font-semibold text-gray-900">
-                  {databaseDetails?.dataSize ? formatBytes(databaseDetails.dataSize) : 'Loading...'}
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Collections Section */}
@@ -364,11 +410,7 @@ function DatabaseCard({ database, serverUrl, onBack }) {
                   <div
                     key={index}
                     onClick={() => handleCollectionClick(collection)}
-                    className={`group p-4 border rounded-lg hover:shadow-md transition-all cursor-pointer ${
-                      selectedCollection?.name === collection.name
-                        ? 'border-blue-500 bg-blue-50 shadow-md'
-                        : 'border-gray-200 hover:border-blue-300'
-                    }`}
+                    className="group p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex items-center min-w-0 flex-1">
@@ -376,19 +418,11 @@ function DatabaseCard({ database, serverUrl, onBack }) {
                           <DocumentTextIcon className="h-5 w-5 text-green-600" />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <h3 className={`text-sm font-medium truncate transition-colors ${
-                            selectedCollection?.name === collection.name
-                              ? 'text-blue-700'
-                              : 'text-gray-900 group-hover:text-blue-600'
-                          }`}>
+                          <h3 className="text-sm font-medium text-gray-900 truncate group-hover:text-blue-600">
                             {collection.name}
                           </h3>
-                          <p className={`text-xs mt-1 ${
-                            selectedCollection?.name === collection.name
-                              ? 'text-blue-600'
-                              : 'text-gray-500'
-                          }`}>
-                            {selectedCollection?.name === collection.name ? 'Selected Collection' : 'Collection'}
+                          <p className="text-xs text-gray-500 mt-1">
+                            Collection
                           </p>
                         </div>
                       </div>
@@ -406,7 +440,7 @@ function DatabaseCard({ database, serverUrl, onBack }) {
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            // Future: Drop collection functionality
+                            handleDeleteCollection(collection);
                           }}
                           className="p-1 text-gray-400 hover:text-red-600 rounded"
                           title="Drop Collection"
@@ -417,15 +451,8 @@ function DatabaseCard({ database, serverUrl, onBack }) {
                     </div>
                     
                     <div className="mt-3 pt-3 border-t border-gray-100">
-                      <p className={`text-xs text-center ${
-                        selectedCollection?.name === collection.name
-                          ? 'text-blue-500 font-medium'
-                          : 'text-gray-400'
-                      }`}>
-                        {selectedCollection?.name === collection.name
-                          ? 'Collection details shown below'
-                          : 'Click to view collection details'
-                        }
+                      <p className="text-xs text-gray-400 text-center">
+                        Click to view collection details
                       </p>
                     </div>
                   </div>
@@ -715,6 +742,55 @@ function DatabaseCard({ database, serverUrl, onBack }) {
           </div>
         )}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div className="mt-3 text-center">
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                <TrashIcon className="h-6 w-6 text-red-600" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mt-4">Delete Collection</h3>
+              <div className="mt-2 px-7 py-3">
+                <p className="text-sm text-gray-500">
+                  Are you sure you want to delete the collection{' '}
+                  <span className="font-medium text-gray-900">"{collectionToDelete?.name}"</span>?
+                </p>
+                <p className="text-sm text-red-600 mt-2 font-medium">
+                  This action cannot be undone. All documents in this collection will be permanently deleted.
+                </p>
+              </div>
+              <div className="flex items-center justify-center gap-3 mt-6">
+                <button
+                  onClick={handleCancelDelete}
+                  disabled={isDeleting}
+                  className="px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConfirmDelete}
+                  disabled={isDeleting}
+                  className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                >
+                  {isDeleting ? (
+                    <>
+                      <RefreshIcon className="animate-spin h-4 w-4 mr-2" />
+                      Deleting...
+                    </>
+                  ) : (
+                    <>
+                      <TrashIcon className="h-4 w-4 mr-2" />
+                      Delete Collection
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Copy Collection Modal */}
       <CopyCollectionModal

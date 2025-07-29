@@ -73,6 +73,7 @@ const RestoreCollections = ({
             typeof col === 'string' ? col : col.name
           );
           setBackupCollections(collections);
+          console.log(collections)
         } else {
           setBackupCollections([]);
         }
