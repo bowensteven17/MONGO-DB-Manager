@@ -1,4 +1,4 @@
-// Option 1: Enhanced Restore.js with Auto-Refresh Controls
+// Enhanced Restore.js with Full Width Layout
 import React, { useState } from 'react';
 import { UploadIcon, DatabaseIcon, CollectionIcon } from '@heroicons/react/outline';
 import RestoreDatabase from './RestoreDatabase';
@@ -45,9 +45,9 @@ const Restore = ({ serverUrl, onRestoreSuccess }) => {
   ];
 
   return (
-    <div className="bg-gray-50 h-full">
+    <div className="bg-gray-50 h-full flex flex-col">
       {/* Header with Auto-Refresh Controls */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white shadow-sm border-b flex-shrink-0">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
@@ -59,13 +59,12 @@ const Restore = ({ serverUrl, onRestoreSuccess }) => {
                 <p className="text-sm text-gray-500">Restore databases and collections from backup files</p>
               </div>
             </div>
-            
           </div>
         </div>
       </div>
 
       {/* Tab Navigation */}
-      <div className="bg-white border-b">
+      <div className="bg-white border-b flex-shrink-0">
         <div className="px-6">
           <div className="flex space-x-8">
             {tabs.map((tab) => {
@@ -92,94 +91,30 @@ const Restore = ({ serverUrl, onRestoreSuccess }) => {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="max-w-4xl mx-auto p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Main Restore Panel */}
-            <div className="lg:col-span-2">
-              <div className="bg-white rounded-lg shadow-sm border p-6">
-                {activeTab === 'database' && (
-                  <RestoreDatabase
-                    connectionString={connectionString}
-                    setConnectionString={setConnectionString}
-                    uploadedBackupInfo={uploadedBackupInfo}
-                    setUploadedBackupInfo={setUploadedBackupInfo}
-                    onRestoreComplete={handleRestoreComplete}
-                  />
-                )}
-                
-                {activeTab === 'collections' && (
-                  <RestoreCollections
-                    connectionString={connectionString}
-                    setConnectionString={setConnectionString}
-                    uploadedBackupInfo={uploadedBackupInfo}
-                    setUploadedBackupInfo={setUploadedBackupInfo}
-                    onRestoreComplete={handleRestoreComplete}
-                  />
-                )}
-              </div>
-            </div>
-
-            {/* Enhanced Sidebar */}
-            <div className="space-y-6">
-
-
-              {/* Current Backup Info */}
-              {uploadedBackupInfo && (
-                <div className="bg-white rounded-lg shadow-sm border p-4">
-                  <h3 className="text-sm font-medium text-gray-900 mb-3">Current Backup</h3>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-500">Database:</span>
-                      <span className="text-xs text-gray-700 font-medium">{uploadedBackupInfo.database}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-500">Collections:</span>
-                      <span className="text-xs text-gray-700">{uploadedBackupInfo.collections?.length || 'Unknown'}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-500">Method:</span>
-                      <span className="text-xs text-gray-700">{uploadedBackupInfo.method || 'Unknown'}</span>
-                    </div>
-                  </div>
-                </div>
+      {/* Main Content - Full Width Layout */}
+      <div className="flex-1 overflow-hidden">
+        <div className="h-full p-6">
+          <div className="bg-white rounded-lg shadow-sm border h-full">
+            <div className="h-full p-6">
+              {activeTab === 'database' && (
+                <RestoreDatabase
+                  connectionString={connectionString}
+                  setConnectionString={setConnectionString}
+                  uploadedBackupInfo={uploadedBackupInfo}
+                  setUploadedBackupInfo={setUploadedBackupInfo}
+                  onRestoreComplete={handleRestoreComplete}
+                />
               )}
-
-              {/* Enhanced Restore History */}
-              {restoreHistory.length > 0 && (
-                <div className="bg-white rounded-lg shadow-sm border p-4">
-                  <div className="mb-3">
-                    <h3 className="text-sm font-medium text-gray-900">Recent Restores</h3>
-                  </div>
-                  <div className="space-y-3 max-h-64 overflow-y-auto">
-                    {restoreHistory.map((entry) => (
-                      <div key={entry.id} className="border-l-2 border-green-200 pl-3 py-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-medium text-gray-900 capitalize">
-                            {entry.type} Restore
-                          </span>
-                          <span className="text-xs text-gray-500">
-                            {entry.timestamp.toLocaleTimeString()}
-                          </span>
-                        </div>
-                        <p className="text-xs text-gray-600 mt-1">
-                          Target: {entry.result.restore?.target_database}
-                        </p>
-                        {entry.result.restore?.collections_restored && (
-                          <p className="text-xs text-gray-500">
-                            {Array.isArray(entry.result.restore.collections_restored)
-                              ? `${entry.result.restore.collections_restored.length} collections`
-                              : 'All collections'
-                            }
-                          </p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              
+              {activeTab === 'collections' && (
+                <RestoreCollections
+                  connectionString={connectionString}
+                  setConnectionString={setConnectionString}
+                  uploadedBackupInfo={uploadedBackupInfo}
+                  setUploadedBackupInfo={setUploadedBackupInfo}
+                  onRestoreComplete={handleRestoreComplete}
+                />
               )}
-
             </div>
           </div>
         </div>

@@ -34,7 +34,10 @@ def create_app():
     # Rate limiting
     limiter = Limiter(
         key_func=get_remote_address,
-        default_limits=["200 per day", "50 per hour"],
+        default_limits=[
+            os.getenv('RATE_LIMIT_DAY', '500 per day'),
+            os.getenv('RATE_LIMIT_HOUR', '100 per hour')
+        ],
         storage_uri=os.getenv('RATELIMIT_STORAGE_URL', 'memory://')
     )
     limiter.init_app(app)
